@@ -29,7 +29,7 @@ Class Core {
     private function __clone() {}
 
     // Public method to access the instance
-    public static function get_instance() {
+    public static function jialivs_get_instance() {
         if (self::$instance === null) {
             self::$instance = new self();
         }
@@ -42,29 +42,43 @@ Class Core {
     }
 
     private function jialivs_init() {
-        register_activation_hook( __FILE__, [$this, 'jialivs_vip_activation'] );
         add_action( 'wp_enqueue_scripts', [$this, 'jialivs_register_assets'] );
         add_action( 'admin_enqueue_scripts', [$this, 'jialivs_admin_register_assets'] );
 
+        include_once JIALIVS_PLUGIN_PATH . 'classes/Jialivs_Check_Assets.php';
+        new Jialivs_Check_Assets();
+
+        include_once JIALIVS_PLUGIN_PATH . 'classes/Jialivs_Shortcodes.php';
+        new Jialivs_Shortcodes();
     }
 
-    private function jialivs_vip_activation() {}
+    public static function jialivs_vip_activation() {  }
 
     public function jialivs_register_assets() {
         
-        // Register styles
+        if( Jialivs_Check_Assets::jialivs_check_bootstrap_enqueue() ) {
+            wp_register_style('jialivs-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' , array(), '5.3.0-alpha1', 'all');
+            wp_enqueue_style('jialivs-bootstrap');
+        }
+
         wp_register_style('jialivs-styles', JIALIVS_PLUGIN_URL . '/assets/css/front/styles.css' , array(), '1.0.0', 'all');
         wp_enqueue_style('jialivs-styles');
         
         // Register scripts
         wp_register_script('jialivs-script', JIALIVS_PLUGIN_URL . '/assets/js/front/main.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('jialivs-script');
+
+        if( Jialivs_Check_Assets::jialivs_check_bootstrap_js_enqueue() ) {
+            wp_register_script('jialivs-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js', array('jquery'), '5.3.0-alpha1', true);
+            wp_enqueue_script('jialivs-bootstrap');
+        }
+
     }
 
     public function jialivs_admin_register_assets() {
        
         // Register styles
-        wp_register_style('jialivs-uikit', 'https://cdn.jsdelivr.net/npm/uikit@3.23.6/dist/css/uikit.min.css' , array(), '1.0.0', 'all');
+        wp_register_style('jialivs-uikit', 'https://cdn.jsdelivr.net/npm/uikit@3.23.6/dist/css/uikit.min.css' , array(), '3.23.6', 'all');
         wp_enqueue_style('jialivs-uikit');
 
         wp_register_style('jialivs-admin-styles', JIALIVS_PLUGIN_URL . '/assets/css/admin/styles.css' , array(), '1.0.0', 'all');
@@ -74,15 +88,17 @@ Class Core {
         wp_register_script('jialivs-admin-script', JIALIVS_PLUGIN_URL . '/assets/js/admin/main.js', array('jquery'), '1.0.0', true);
         wp_enqueue_script('jialivs-admin-script');
 
-        wp_register_script('jialivs-uikit', 'https://cdn.jsdelivr.net/npm/uikit@3.23.6/dist/js/uikit.min.js', array('jquery'), '1.0.0', true);
+        wp_register_script('jialivs-uikit', 'https://cdn.jsdelivr.net/npm/uikit@3.23.6/dist/js/uikit.min.js', array('jquery'), '3.23.6', true);
         wp_enqueue_script('jialivs-uikit');
 
-        wp_register_script('jialivs-uikit-icon', 'https://cdn.jsdelivr.net/npm/uikit@3.23.6/dist/js/uikit-icons.min.js', array('jquery'), '1.0.0', true);
+        wp_register_script('jialivs-uikit-icon', 'https://cdn.jsdelivr.net/npm/uikit@3.23.6/dist/js/uikit-icons.min.js', array('jquery'), '3.23.6', true);
         wp_enqueue_script('jialivs-uikit-icon');
     
     }
 
-
 }
 
-Core::get_instance();
+Core::jialivs_get_instance();
+
+// Add this AFTER the instance is created:
+register_activation_hook(__FILE__, ['Core', 'jialivs_vip_activation']);
