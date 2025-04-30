@@ -6,11 +6,11 @@ if (!defined('ABSPATH')) exit;
 class Jialivs_Check_Assets {
 
     public function __construct() {
-        add_action('wp_enqueue_scripts', [$this, 'jialivs_check_bootstrap_enqueue'], 100);
-        add_action('wp_enqueue_scripts', [$this, 'jialivs_check_bootstrap_js_enqueue'], 100);
+        add_action('wp_enqueue_scripts', [$this, 'check_bootstrap_enqueue'], 100);
+        add_action('wp_enqueue_scripts', [$this, 'check_bootstrap_js_enqueue'], 100);
     }
  
-    public static function jialivs_check_bootstrap_enqueue() {
+    public static function check_bootstrap_enqueue() {
         global $wp_styles;
     
         foreach ($wp_styles->queue as $handle) {
@@ -23,7 +23,7 @@ class Jialivs_Check_Assets {
         return false;
     }
 
-    public static function jialivs_check_bootstrap_js_enqueue() {
+    public static function check_bootstrap_js_enqueue() {
         global $wp_scripts;
     
         foreach ($wp_scripts->queue as $handle) {
