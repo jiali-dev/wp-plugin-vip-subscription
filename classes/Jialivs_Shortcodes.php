@@ -6,10 +6,10 @@ if (!defined('ABSPATH')) exit;
 class Jialivs_Shortcodes {
 
     public function __construct() {
-        add_shortcode('jialivs_shortcode', [$this, 'jialivs_shortcode_function']);
+        add_shortcode('jialivs_plans_shortcode', [$this, 'shortcode_function']);
     }
 
-    public function jialivs_shortcode_function() {
+    public function shortcode_function() {
         
         ob_start();
         ?>
@@ -26,82 +26,62 @@ class Jialivs_Shortcodes {
                     </div>
                     <!-- ============================ Page Title End ================================== -->	
                     <div class="row">
-                        <!-- Single Package -->
-                        <div class="col-lg-4 col-md-4">
-                            <div class="packages_wrapping bg-white">
-                                <div class="packages_headers">
-                                    <i class="lni-layers"></i>
-                                    <h4 class="packages_pr_title">پکیج پایه</h4>
-                                    <span class="packages_price-subtitle">با پکیج پایه شروع کنید!</span>
+
+                        <?php 
+                            $plan = new Jialivs_Plan(); 
+                            $vip_plans = $plan->find();
+                        ?>
+                        <?php if( !is_wp_error($vip_plans) && !empty($vip_plans) ): ?>
+                            <?php foreach( $vip_plans as $vip_plan ): ?>
+                                <?php 
+                                    $vip_plan_title = '';
+                                    $vip_plan_icon = 'lni-layers';
+                                    switch($vip_plan->type) {
+                                        case 1:
+                                            $vip_plan_title = 'پکیج طلایی';
+                                            $vip_plan_icon = 'lni-layers';
+                                            break;
+                                        case 2:
+                                            $vip_plan_title = 'پکیج نقره ای';
+                                            $vip_plan_icon = 'lni-diamond';
+                                            break;
+                                        case 3:
+                                            $vip_plan_title = 'پکیج برنزی';
+                                            $vip_plan_icon = 'lni-invention';
+                                            break;
+                                    }
+                                ?>
+                                <!-- Single Package -->
+                                <div class="col-lg-4 col-md-4">
+                                    <div class="packages_wrapping <?php echo $vip_plan->recommended ? 'recommended' :'bg-white' ?>">
+                                        <div class="packages_headers">
+                                            <i class="<?php echo $vip_plan_icon ?>"></i>
+                                            <h4 class="packages_pr_title"><?php echo $vip_plan_title ?></h4>
+                                            <span class="packages_price-subtitle">با <?php echo $vip_plan_title ?> شروع کنید!</span>
+                                        </div>
+                                        <div class="packages_price">
+                                            <h4 class="pr-value"><?php echo rtrim($vip_plan->price, '0') ?></h4>
+                                        </div>
+                                        <div class="packages_middlebody">
+                                            <?php 
+                                                $vip_plan_benefits = explode( '|', $vip_plan->benefits);
+                                            ?>
+                                            <ul>
+                                                <?php foreach( $vip_plan_benefits as $benefit ): ?>
+                                                    <li><?php echo $benefit ?></li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        </div>
+                                        <div class="packages_bottombody">
+                                            <a href="#" class="btn-pricing">انتخاب</a>
+                                        </div>
+                                        
+                                    </div>
                                 </div>
-                                <div class="packages_price">
-                                    <h4 class="pr-value">49</h4>
-                                </div>
-                                <div class="packages_middlebody">
-                                    <ul>
-                                        <li>یکماه دسترسی به مطالب VIP</li>
-                                        <li>ارتباط مستقیم با واتساپ استاد</li>
-                                        <li>الویت نمایش و بازدید بالا</li>
-                                    </ul>
-                                </div>
-                                <div class="packages_bottombody">
-                                    <a href="#" class="btn-pricing">انتخاب</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        
-                        <!-- Single Package -->
-                        <div class="col-lg-4 col-md-4">
-                            <div class="packages_wrapping recommended">
-                                
-                                <div class="packages_headers">
-                                    <i class="lni-diamond"></i>
-                                    <h4 class="packages_pr_title">پکیج نقره ای</h4>
-                                    <span class="packages_price-subtitle">با پکیج نقره ای شروع کنید!</span>
-                                </div>
-                                <div class="packages_price">
-                                    <h4 class="pr-value">149</h4>
-                                </div>
-                                <div class="packages_middlebody">
-                                    <ul>
-                                        <li>دو ماه دسترسی به مطالب VIP</li>
-                                        <li>ارتباط مستقیم با واتساپ استاد</li>
-                                        <li>الویت نمایش و بازدید بالا</li>
-                                    </ul>
-                                </div>
-                                <div class="packages_bottombody">
-                                    <a href="#" class="btn-pricing">انتخاب</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        
-                        <!-- Single Package -->
-                        <div class="col-lg-4 col-md-4">
-                            <div class="packages_wrapping bg-white">
-                                
-                                <div class="packages_headers">
-                                    <i class="lni-invention"></i>
-                                    <h4 class="packages_pr_title">پکیج طلایی</h4>
-                                    <span class="packages_price-subtitle">با پکیج طلایی شروع کنید!</span>
-                                </div>
-                                <div class="packages_price">
-                                    <h4 class="pr-value">199</h4>
-                                </div>
-                                <div class="packages_middlebody">
-                                    <ul>
-                                        <li>سه ماه دسترسی به مطالب VIP</li>
-                                        <li>ارتباط مستقیم با واتساپ استاد</li>
-                                        <li>بازدید خیلی بالا</li>
-                                    </ul>
-                                </div>
-                                <div class="packages_bottombody">
-                                    <a href="#" class="btn-pricing">انتخاب</a>
-                                </div>
-                                
-                            </div>
-                        </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="alert alert-danger">تا کنون پلنی ثبت نشده است!</div>
+                        <?php endif; ?>
                         
                     </div>
                     
