@@ -6,10 +6,12 @@ if (!defined('ABSPATH')) exit;
 class Jialivs_Shortcodes {
 
     public function __construct() {
-        add_shortcode('jialivs_plans_shortcode', [$this, 'shortcode_function']);
+        add_shortcode('jialivs_plans_shortcode', [$this, 'jialivs_plans_shortcode']);
+        add_shortcode('jialivs_plans_checkout_shortcode', [$this, 'jialivs_plans_checkout_shortcode']);
+        add_shortcode('jialivs_plans_gateway_shortcode', [$this, 'jialivs_plans_gateway_shortcode']);
     }
 
-    public function shortcode_function() {
+    public function jialivs_plans_shortcode() {
         
         ob_start();
         ?>
@@ -33,31 +35,14 @@ class Jialivs_Shortcodes {
                         ?>
                         <?php if( !is_wp_error($vip_plans) && !empty($vip_plans) ): ?>
                             <?php foreach( $vip_plans as $vip_plan ): ?>
-                                <?php 
-                                    $vip_plan_title = '';
-                                    $vip_plan_icon = 'lni-layers';
-                                    switch($vip_plan->type) {
-                                        case 1:
-                                            $vip_plan_title = 'پکیج طلایی';
-                                            $vip_plan_icon = 'lni-layers';
-                                            break;
-                                        case 2:
-                                            $vip_plan_title = 'پکیج نقره ای';
-                                            $vip_plan_icon = 'lni-diamond';
-                                            break;
-                                        case 3:
-                                            $vip_plan_title = 'پکیج برنزی';
-                                            $vip_plan_icon = 'lni-invention';
-                                            break;
-                                    }
-                                ?>
+                               
                                 <!-- Single Package -->
                                 <div class="col-lg-4 col-md-4">
                                     <div class="packages_wrapping <?php echo $vip_plan->recommended ? 'recommended' :'bg-white' ?>">
                                         <div class="packages_headers">
-                                            <i class="<?php echo $vip_plan_icon ?>"></i>
-                                            <h4 class="packages_pr_title"><?php echo $vip_plan_title ?></h4>
-                                            <span class="packages_price-subtitle">با <?php echo $vip_plan_title ?> شروع کنید!</span>
+                                            <i class="<?php echo $plan->get_plan_icon($vip_plan->id) ?>"></i>
+                                            <h4 class="packages_pr_title"><?php echo $plan->get_plan_title($vip_plan->id) ?></h4>
+                                            <span class="packages_price-subtitle">با <?php echo $plan->get_plan_title($vip_plan->id) ?> شروع کنید!</span>
                                         </div>
                                         <div class="packages_price">
                                             <h4 class="pr-value"><?php echo rtrim($vip_plan->price, '0') ?></h4>
@@ -73,7 +58,11 @@ class Jialivs_Shortcodes {
                                             </ul>
                                         </div>
                                         <div class="packages_bottombody">
-                                            <a href="#" class="btn-pricing">انتخاب</a>
+                                            <form action="<?php echo site_url('vip-gateway') ?>" method="post" >
+                                                <input type="hidden" name="plan_id" value="<?php echo $vip_plan->id ?>">
+                                                <?php wp_nonce_field( 'vip-plan-nonce', 'vip-plan-nonce' ) ?>
+                                                <input class="btn-pricing" type="submit" value="انتخاب">
+                                            </form>
                                         </div>
                                         
                                     </div>
@@ -91,6 +80,89 @@ class Jialivs_Shortcodes {
             <!-- ============================ vip End ================================== -->
 	
         <?php
+        return ob_get_clean();
+    }
+
+    // Plans Checkout
+    public function jialivs_plans_checkout_shortcode() {
+        ob_start();
+
+        var_dump(Jialivs_Session::get('user_plan_data'));
+        ?>
+            <div class="order-checkout">
+                <div class="col-lg-4 col-md-4">
+                    <div class="packages_wrapping bg-white">
+                        <div class="packages_headers">
+                            <i class="lni-paypal"></i>
+                            <h4 class="packages_pr_title"><?php // echo $plan->get_plan_title($vip_plan->id) ?></h4>
+                            <div class="packages_date">
+                                <span>تاریخ:</span>
+                                <span><?php echo jdate("d-m-Y") ?></span>
+                            </div>
+                            <div class="packages_number">
+                                <span>شماره سفارش:</span>
+                                <span><?php // echo jdate("Ymd") . time() ?></span>
+                            </div>
+                        </div>
+                        <div class="packages_price">
+                            <h4 class="pr-value"><?php // echo $vip_plan->price ?></h4>
+                        </div>
+                        <div class="packages_bottombody">
+                            <form action="<?php echo htmlspecialchars( site_url(get_permalink( )) ) ?>" method="post" >
+                                <input type="hidden" name="plan-id" value="">
+                                <?php wp_nonce_field( 'vip-plan-nonce', 'vip-plan-nonce' ) ?>
+                                <input class="btn-pricing" type="submit" value="پرداخت">
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    // Plans gateway
+    public function jialivs_plans_gateway_shortcode() {
+        ob_start();
+
+        if ( empty($_POST['vip-plan-nonce']) || !isset($_POST['vip-plan-nonce']) || !wp_verify_nonce( $_POST['vip-plan-nonce'], 'vip-plan-nonce' ) )
+            wp_redirect(home_url( ));
+
+        if( !is_user_logged_in(  ) )
+            wp_redirect(home_url( ));
+
+        if( !isset($_POST['plan_id']) || empty($_POST['plan_id']))
+            wp_redirect(home_url( ));
+
+        $plan_id = intval($_POST['plan_id']);
+        $plan = new Jialivs_Plan(); 
+        $vip_plan = $plan->find_by_id($plan_id);
+        
+        $current_user_info = wp_get_current_user();
+
+        // var_dump($current_user_info);
+        Jialivs_Session::set( 'user_plan_data', [
+            'sesseion_id' => session_id(),
+            'plan_id' => $plan_id,
+            'plan_type' => $vip_plan->type,
+            'user_id' => $current_user_info->ID,
+            'first_name' => $current_user_info->first_name,
+            'last_name' => $current_user_info->last_name,
+            'email' => $current_user_info->user_email,
+            'price' => $vip_plan->price,
+            'order_number' => Jialivs_Helper::orderNumber()
+        ]);
+
+        if( Jialivs_Session::has( 'user_plan_data' ) )
+        {
+
+            wp_redirect( home_url( 'vip-plans-checkout' ) );
+        } else 
+        {
+            wp_redirect( home_url() );
+
+        }
         return ob_get_clean();
     }
 }
