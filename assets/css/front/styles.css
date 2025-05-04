@@ -109,3 +109,14 @@
     background: #ffffff !important;
     color: #d70040 !important;
 }
+
+input.btn-pricing {
+    border: none;
+    cursor: pointer;
+}
+
+.order-checkout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

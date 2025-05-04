@@ -43,6 +43,7 @@ class Core {
     private function init() {
         add_action('wp_enqueue_scripts', [$this, 'register_assets']);
         add_action('admin_enqueue_scripts', [$this, 'admin_register_assets']);
+        include_once(plugin_dir_path(__FILE__).'_lib/jdf.php');
         new Jialivs_Shortcodes();
     }
 
