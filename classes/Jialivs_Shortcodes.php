@@ -9,6 +9,7 @@ class Jialivs_Shortcodes {
         add_shortcode('jialivs_plans_shortcode', [$this, 'jialivs_plans_shortcode']);
         add_shortcode('jialivs_plans_checkout_shortcode', [$this, 'jialivs_plans_checkout_shortcode']);
         add_shortcode('jialivs_plans_gateway_shortcode', [$this, 'jialivs_plans_gateway_shortcode']);
+        add_shortcode('jialivs_payment_result_shortcode', [$this, 'jialivs_payment_result_shortcode']);
     }
 
     public function jialivs_plans_shortcode() {
@@ -40,9 +41,9 @@ class Jialivs_Shortcodes {
                                 <div class="col-lg-4 col-md-4">
                                     <div class="packages_wrapping <?php echo $vip_plan->recommended ? 'recommended' :'bg-white' ?>">
                                         <div class="packages_headers">
-                                            <i class="<?php echo $plan->get_plan_icon($vip_plan->id) ?>"></i>
-                                            <h4 class="packages_pr_title"><?php echo $plan->get_plan_title($vip_plan->id) ?></h4>
-                                            <span class="packages_price-subtitle">با <?php echo $plan->get_plan_title($vip_plan->id) ?> شروع کنید!</span>
+                                            <i class="<?php echo $plan->get_plan_icon($vip_plan->type) ?>"></i>
+                                            <h4 class="packages_pr_title"><?php echo $plan->get_plan_title($vip_plan->type) ?></h4>
+                                            <span class="packages_price-subtitle">با <?php echo $plan->get_plan_title($vip_plan->type) ?> شروع کنید!</span>
                                         </div>
                                         <div class="packages_price">
                                             <h4 class="pr-value"><?php echo rtrim($vip_plan->price, '0') ?></h4>
@@ -83,45 +84,6 @@ class Jialivs_Shortcodes {
         return ob_get_clean();
     }
 
-    // Plans Checkout
-    public function jialivs_plans_checkout_shortcode() {
-        ob_start();
-
-        var_dump(Jialivs_Session::get('user_plan_data'));
-        ?>
-            <div class="order-checkout">
-                <div class="col-lg-4 col-md-4">
-                    <div class="packages_wrapping bg-white">
-                        <div class="packages_headers">
-                            <i class="lni-paypal"></i>
-                            <h4 class="packages_pr_title"><?php // echo $plan->get_plan_title($vip_plan->id) ?></h4>
-                            <div class="packages_date">
-                                <span>تاریخ:</span>
-                                <span><?php echo jdate("d-m-Y") ?></span>
-                            </div>
-                            <div class="packages_number">
-                                <span>شماره سفارش:</span>
-                                <span><?php // echo jdate("Ymd") . time() ?></span>
-                            </div>
-                        </div>
-                        <div class="packages_price">
-                            <h4 class="pr-value"><?php // echo $vip_plan->price ?></h4>
-                        </div>
-                        <div class="packages_bottombody">
-                            <form action="<?php echo htmlspecialchars( site_url(get_permalink( )) ) ?>" method="post" >
-                                <input type="hidden" name="plan-id" value="">
-                                <?php wp_nonce_field( 'vip-plan-nonce', 'vip-plan-nonce' ) ?>
-                                <input class="btn-pricing" type="submit" value="پرداخت">
-                            </form>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        <?php
-        return ob_get_clean();
-    }
-
     // Plans gateway
     public function jialivs_plans_gateway_shortcode() {
         ob_start();
@@ -141,10 +103,8 @@ class Jialivs_Shortcodes {
         
         $current_user_info = wp_get_current_user();
 
-        // var_dump($current_user_info);
         Jialivs_Session::set( 'user_plan_data', [
             'sesseion_id' => session_id(),
-            'plan_id' => $plan_id,
             'plan_type' => $vip_plan->type,
             'user_id' => $current_user_info->ID,
             'first_name' => $current_user_info->first_name,
@@ -156,13 +116,103 @@ class Jialivs_Shortcodes {
 
         if( Jialivs_Session::has( 'user_plan_data' ) )
         {
-
             wp_redirect( home_url( 'vip-plans-checkout' ) );
         } else 
         {
             wp_redirect( home_url() );
+        }
+        return ob_get_clean();
+    }
+
+    // Plans Checkout
+    public function jialivs_plans_checkout_shortcode() {
+        // Handle form submission BEFORE any output
+        if ( isset($_POST['pay']) ) {
+            $transaction = new Jialivs_Transaction();
+            $result = $transaction->save(Jialivs_Session::get('user_plan_data'));
+            if( $result )
+            {
+                Jialivs_Payment::setter(Jialivs_Session::get('user_plan_data'));
+
+                Jialivs_Payment::request();
+
+                // Redirect to payment gateway
+                // wp_redirect( 'https://sandbox.zarinpal.com/pg/StartPay/4c2f3b5d-0a1e-4b7c-8f6d-9a0e1f3b5d0e' );
+                exit;
+            } else {
+                echo '<div class="alert alert-danger">خطا در ثبت اطلاعات!</div>';
+            }
 
         }
+
+        ob_start();
+
+        $user_plan_data = Jialivs_Session::get('user_plan_data');
+
+        ?>
+            <div class="order-checkout">
+                <div class="col-lg-4 col-md-4">
+                    <div class="packages_wrapping bg-white">
+                        <div class="packages_headers">
+                            <i class="lni-paypal"></i>
+                            <h4 class="packages_pr_title"><?php echo Jialivs_Plan::get_plan_title($user_plan_data['plan_type']) ?></h4>
+                            <div class="packages_date">
+                                <span>تاریخ:</span>
+                                <span><?php echo jdate("d-m-Y") ?></span>
+                            </div>
+                            <div class="packages_number">
+                                <span>شماره سفارش:</span>
+                                <span><?php echo $user_plan_data['order_number'] ?></span>
+                            </div>
+                        </div>
+                        <div class="packages_price">
+                            <h4 class="pr-value"><?php echo $user_plan_data['price'] ?></h4>
+                        </div>
+                        <div class="packages_bottombody">
+                            <form action="<?php //echo htmlspecialchars( site_url(get_permalink( )) ) ?>" method="post" >
+                                <input class="btn-pricing" name="pay" type="submit" value="پرداخت">
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        <?php
+
+        return ob_get_clean();
+
+    }
+
+    // Payment Result
+    public function jialivs_payment_result_shortcode() {
+        ob_start();
+
+        $user_plan_data = Jialivs_Session::get('user_plan_data');
+        Jialivs_Payment::setter(Jialivs_Session::get('user_plan_data'));
+        Jialivs_Payment::payment_result();
+        ?>
+        <div class="order-checkout">
+            <div class="col-lg-4 col-md-4">
+                <div class="packages_wrapping bg-white">
+                    <div class="packages_headers">
+                        <i class="lni-paypal"></i>
+                        <h4 class="packages_pr_title">رسید پرداخت برای <?php echo Jialivs_Plan::get_plan_title($user_plan_data['plan_type']) ?></h4>
+                        <div class="packages_ref">
+                            <span>شماره تراکنش:</span>
+                            <span><?php echo Jialivs_Payment::getRefID() ?></span>
+                        </div>
+                    </div>
+                    <div class="packages_price">
+                        <h4 class="pr-value"><?php echo $user_plan_data['price'] ?></h4>
+                    </div>
+                    <div class="packages_bottombody">
+                        <a href="<?php echo home_url(  ) ?>">بازگشت به سایت</a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <?php
         return ob_get_clean();
     }
 }
