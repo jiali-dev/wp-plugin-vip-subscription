@@ -43,7 +43,12 @@ class Core {
     private function init() {
         add_action('wp_enqueue_scripts', [$this, 'register_assets']);
         add_action('admin_enqueue_scripts', [$this, 'admin_register_assets']);
+        include_once(JIALIVS_PLUGIN_PATH.'_lib/jdf.php');
         new Jialivs_Shortcodes();
+        include_once( ABSPATH.'wp-includes/pluggable.php'); // For gettin wp_get_current_user and etc. 
+        include_once( JIALIVS_PLUGIN_PATH.'_inc/vip-metabox.php'); 
+        include_once( JIALIVS_PLUGIN_PATH.'_inc/filter-vip-content.php'); 
+        include_once( JIALIVS_PLUGIN_PATH.'_inc/panel/menu.php'); 
     }
 
     public static function vip_activation() {

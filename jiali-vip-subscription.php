@@ -16,6 +16,9 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
+if( session_status() == 1 )
+    session_start();
+
 // Include Core class
 require_once plugin_dir_path(__FILE__) . 'Core.php';
 
