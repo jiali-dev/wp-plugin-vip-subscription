@@ -36,7 +36,7 @@ class Jialivs_User_Vip_Plan {
         return false;
     }
 
-    public function update_user_vip_plan( $plan_type, $user_id ) {
+    public function update_user_vip_plan( $user_id, $plan_type ) {
         
         $is_user_exist = self::find( $user_id );
 
@@ -74,10 +74,11 @@ class Jialivs_User_Vip_Plan {
 
             $data = [
                 'plan_type' => $plan_type,
+                'start_date' => date('Y-m-d'),
                 'expiration_date' => $expiration_date
             ];
 
-            $format = [ '%d', '%d', '%s' ];
+            $format = [ '%d', '%s', '%s' ];
 
             $where = [
                 'user_id' => $user_id
@@ -92,14 +93,64 @@ class Jialivs_User_Vip_Plan {
             $data = [
                 'user_id' => $user_id,
                 'plan_type' => $plan_type,
+                'start_date' => date('Y-m-d'),
                 'expiration_date' => $expiration_date
             ];
     
-            $format = [ '%d', '%d', '%d', '%s'];
+            $format = [ '%d', '%d', '%s', '%s' ];
     
             return $this->db->insert( $this->table, $data, $format );
         }
 
     }
 
+    public function get_users_vip_plans() {
+        
+        $stmt = $this->db->get_results( $this->db->prepare( "SELECT * FROM {$this->table}" ) );
+        
+        return $stmt;
+
+    }
+
+    public function delete_user_vip_plan( $user_id ) {
+        
+        $stmt = $this->db->delete( $this->table, [ 'user_id' => $user_id ], [ '%d' ] );
+        
+        return $stmt;
+
+    }
+    
+    public static function calculate_remaining_time( $expiration_date ) {
+        
+        $current_date = date('Y-m-d');
+        $remaining_time = strtotime($expiration_date) - strtotime($current_date);
+        
+        if( $remaining_time < 0 ) {
+            return 'منقضی شده';
+        }
+
+        $days_remaining = floor($remaining_time / (60 * 60 * 24));
+        
+        return $days_remaining . ' روز باقی مانده';
+    }
+
+    public function edit_user_vip_plan(  $user_id, $plan_type, $start_date, $expiration_date ) {
+
+        $data = [
+            'plan_type' => $plan_type,
+            'start_date' => $start_date,
+            'expiration_date' => $expiration_date
+        ];
+
+        $format = [ '%d', '%s', '%s' ];
+
+        $where = [
+            'user_id' => $user_id
+        ];
+
+        $where_format = [ '%d' ];
+
+        return $this->db->update( $this->table, $data, $where, $format, $where_format );
+
+    }
 }

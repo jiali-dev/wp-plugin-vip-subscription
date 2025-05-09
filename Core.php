@@ -71,10 +71,16 @@ class Core {
 
     public function admin_register_assets() {
         wp_enqueue_style('jialivs-uikit', 'https://cdn.jsdelivr.net/npm/uikit@3.23.6/dist/css/uikit.min.css', [], '3.23.6');
+        
+        if( is_rtl(  ) ) {
+            wp_enqueue_style('jialivs-uikit', JIALIVS_PLUGIN_URL . '/assets/plugins/uikit/uikit-rtl.min.css', [], '3.23.6');
+        } 
         wp_enqueue_style('jialivs-admin-styles', JIALIVS_PLUGIN_URL . '/assets/css/admin/styles.css', [], '1.0.0');
+        wp_enqueue_style('jialivs-date-picker', 'https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css', [], '1.0.0');
 
         wp_enqueue_script('jialivs-admin-script', JIALIVS_PLUGIN_URL . '/assets/js/admin/main.js', ['jquery'], '1.0.0', true);
         wp_enqueue_script('jialivs-uikit', 'https://cdn.jsdelivr.net/npm/uikit@3.23.6/dist/js/uikit.min.js', ['jquery'], '3.23.6', true);
         wp_enqueue_script('jialivs-uikit-icon', 'https://cdn.jsdelivr.net/npm/uikit@3.23.6/dist/js/uikit-icons.min.js', ['jquery'], '3.23.6', true);
+        wp_enqueue_script('jialivs-date-picker', 'https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.js', ['jquery'], '3.23.6', true);
     }
 }

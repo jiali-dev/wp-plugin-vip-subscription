@@ -40,6 +40,7 @@ class Jialivs_Transaction {
 
         $data = [
             'ref_id' => $ref_id,
+            'status' => 1,
         ];
 
         $format = [ '%s', '%s' ];

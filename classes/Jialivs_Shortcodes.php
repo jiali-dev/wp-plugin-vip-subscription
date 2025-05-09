@@ -133,7 +133,6 @@ class Jialivs_Shortcodes {
             if( $result )
             {
                 Jialivs_Payment::setter(Jialivs_Session::get('user_plan_data'));
-
                 Jialivs_Payment::request();
 
                 // Redirect to payment gateway
@@ -191,27 +190,31 @@ class Jialivs_Shortcodes {
         Jialivs_Payment::setter(Jialivs_Session::get('user_plan_data'));
         Jialivs_Payment::payment_result();
         ?>
-        <div class="order-checkout">
-            <div class="col-lg-4 col-md-4">
-                <div class="packages_wrapping bg-white">
-                    <div class="packages_headers">
-                        <i class="lni-paypal"></i>
-                        <h4 class="packages_pr_title">رسید پرداخت برای <?php echo Jialivs_Plan::get_plan_title($user_plan_data['plan_type']) ?></h4>
-                        <div class="packages_ref">
-                            <span>شماره تراکنش:</span>
-                            <span><?php echo Jialivs_Payment::getRefID() ?></span>
+        <?php if( Jialivs_Payment::getRefID() ): ?>
+            <div class="order-checkout">
+                <div class="col-lg-4 col-md-4">
+                    <div class="packages_wrapping bg-white">
+                        <div class="packages_headers">
+                            <i class="lni-paypal"></i>
+                            <h4 class="packages_pr_title">رسید پرداخت برای <?php echo Jialivs_Plan::get_plan_title($user_plan_data['plan_type']) ?></h4>
+                            <div class="packages_ref">
+                                <span>شماره تراکنش:</span>
+                                <span><?php echo Jialivs_Payment::getRefID() ?></span>
+                            </div>
                         </div>
+                        <div class="packages_price">
+                            <h4 class="pr-value"><?php echo $user_plan_data['price'] ?></h4>
+                        </div>
+                        <div class="packages_bottombody">
+                            <a href="<?php echo home_url(  ) ?>">بازگشت به سایت</a>
+                        </div>
+                        
                     </div>
-                    <div class="packages_price">
-                        <h4 class="pr-value"><?php echo $user_plan_data['price'] ?></h4>
-                    </div>
-                    <div class="packages_bottombody">
-                        <a href="<?php echo home_url(  ) ?>">بازگشت به سایت</a>
-                    </div>
-                    
                 </div>
             </div>
-        </div>
+        <?php else: ?>
+            <div class="alert alert-danger">پرداختی موجود نیست!</div>
+        <?php endif; ?> 
         <?php
         return ob_get_clean();
     }
