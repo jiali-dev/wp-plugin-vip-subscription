@@ -76,12 +76,12 @@ class Jialivs_Payment {
         if ($err) {
             echo "cURL Error #:" . $err;
         } else {
-            if ($result['data']['code'] == 100) {
+            if ( isset($result['data']['code']) && $result['data']['code'] == 100 ) {
                 self::$refID = $result['data']['ref_id'];
                 $transaction = new Jialivs_Transaction();
                 $transaction->update( $result['data']['ref_id'], Jialivs_Session::get('user_plan_data')['order_number'] );
                 $user_vip_plan = new Jialivs_User_Vip_Plan();
-                $user_vip_plan->update_user_vip_plan( Jialivs_Session::get('user_plan_data')['plan_type'], Jialivs_Session::get('user_plan_data')['user_id'] );
+                $user_vip_plan->update_user_vip_plan( Jialivs_Session::get('user_plan_data')['user_id'], Jialivs_Session::get('user_plan_data')['plan_type'] );
                 Jialivs_Session::unset('user_plan_data');
             } else {
                 self::$errCode = $result['errors']['code'];
@@ -91,12 +91,12 @@ class Jialivs_Payment {
     }
 
     public static function setter($data) {
-        self::$amount = $data['price'] * 10;
+        self::$amount = isset( $data['price'] ) ? $data['price'] * 10 : '';
         self::$merchant_id = get_option('_merchant_id');
-        self::$description = Jialivs_Plan::get_plan_title($data['plan_type']);
+        self::$description = isset( $data['plan_type'] ) ? Jialivs_Plan::get_plan_title($data['plan_type']) : '';
         self::$metadata = [
-            'email' => $data['email'],
-            'mobile' => '09123456789'
+            'email' => isset( $data['email'] ) ? $data['email'] : '',
+            'mobile' => isset( $data['mobile'] ) ? $data['mobile'] : '00000000000'
         ];
     }
 
