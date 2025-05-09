@@ -645,3 +645,16 @@ function jalali_to_gregorian($jy, $jm, $jd, $mod = '') {
   for ($gm = 0; $gm < 13 and $gd > $sal_a[$gm]; $gm++) $gd -= $sal_a[$gm];
   return ($mod == '') ? array($gy, $gm, $gd) : $gy . $mod . $gm . $mod . $gd;
 }
+
+function gdate($datetime) {
+
+  $datetime = explode('-', $datetime);
+  $y = $datetime[0];
+  $m = $datetime[1];
+  $d = $datetime[2];
+
+  $gdate = jalali_to_gregorian($y, $m, $d);
+
+  return date('Y-m-d', strtotime($gdate[0].'-'.$gdate[1].'-'.$gdate[2]));
+    
+}
