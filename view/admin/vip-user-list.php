@@ -84,8 +84,8 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
                 throw new Exception( __( 'Security error!', 'jialivs' ) , 403 );
 
             $plan_id = isset($_POST['plan_type']) ? intval($_POST['plan_type']) : '';
-            $start_date = isset($_POST['start_date']) ? gdate(sanitize_text_field($_POST['start_date'])) : '';;
-            $expiration_date = isset($_POST['expiration_date']) ? gdate(sanitize_text_field($_POST['expiration_date'])) : '';;
+            $start_date = isset($_POST['start_date']) ? gdate(sanitize_text_field($_POST['start_date'])) : '';
+            $expiration_date = isset($_POST['expiration_date']) ? gdate(sanitize_text_field($_POST['expiration_date'])) : '';
 
             if( empty($plan_id) || empty($start_date) || empty($expiration_date) )
                 throw new Exception( __( 'Fill All fields!', 'jialivs' ) , 403 );

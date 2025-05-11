@@ -69,7 +69,7 @@ function jialivs_vip_users_page() {
 
 // Submenu Page 2: پلن‌های VIP
 function jialivs_vip_plans_page() {
-    echo '<div class="wrap"><h2>پلن‌های VIP</h2><p>در اینجا می‌توانید پلن‌های VIP را مدیریت کنید.</p></div>';
+    include_once( JIALIVS_PLUGIN_PATH.'/view/admin/vip-plans-list.php' );
 }
 
 // Submenu Page 3: لیست تراکنش‌ها

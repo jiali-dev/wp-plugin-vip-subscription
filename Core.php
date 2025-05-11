@@ -75,6 +75,7 @@ class Core {
         if( is_rtl(  ) ) {
             wp_enqueue_style('jialivs-uikit', JIALIVS_PLUGIN_URL . '/assets/plugins/uikit/uikit-rtl.min.css', [], '3.23.6');
         } 
+        
         wp_enqueue_style('jialivs-admin-styles', JIALIVS_PLUGIN_URL . '/assets/css/admin/styles.css', [], '1.0.0');
         wp_enqueue_style('jialivs-date-picker', 'https://unpkg.com/@majidh1/jalalidatepicker/dist/jalalidatepicker.min.css', [], '1.0.0');
 
