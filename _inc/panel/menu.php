@@ -74,7 +74,7 @@ function jialivs_vip_plans_page() {
 
 // Submenu Page 3: لیست تراکنش‌ها
 function jialivs_vip_transactions_page() {
-    echo '<div class="wrap"><h2>لیست تراکنش‌ها</h2><p>در این بخش لیست تراکنش‌های VIP را مشاهده می‌کنید.</p></div>';
+    include_once( JIALIVS_PLUGIN_PATH.'/view/admin/vip-users-transactions.php' );
 }
 
 // Submenu Page 3: تنظیمات
