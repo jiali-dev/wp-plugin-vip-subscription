@@ -46,7 +46,7 @@ class Jialivs_Shortcodes {
                                             <span class="packages_price-subtitle">با <?php echo $plan->get_plan_title($vip_plan->type) ?> شروع کنید!</span>
                                         </div>
                                         <div class="packages_price">
-                                            <h4 class="pr-value"><?php echo rtrim($vip_plan->price, '0') ?></h4>
+                                            <h4 class="pr-value"><?php echo $vip_plan->price/1000 ?></h4>
                                         </div>
                                         <div class="packages_middlebody">
                                             <?php 
