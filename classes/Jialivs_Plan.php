@@ -19,6 +19,11 @@ class Jialivs_Plan {
         return $stmt;
     }
 
+    public function delete( $plan_id ) {
+        $stmt = $this->db->delete( $this->table, [ 'id' => $plan_id ], [ '%d' ] );
+        return $stmt;
+    }
+
     public function find_by_id($plan_id) {
         $stmt = $this->db->get_row($this->db->prepare("SELECT * FROM {$this->table} WHERE id = %d", $plan_id));
         return $stmt;
@@ -54,6 +59,27 @@ class Jialivs_Plan {
                 break;
         }
         return $vip_plan_icon;
+    }
+
+    public function edit_vip_plan(  $id, $price, $recommended, $status, $benefits ) {
+
+        $data = [
+            'price' => $price,
+            'recommended' => $recommended,
+            'status' => $status,
+            'benefits' => $benefits
+        ];
+
+        $format = [ '%s', '%d', '%d', '%s' ];
+
+        $where = [
+            'id' => $id
+        ];
+
+        $where_format = [ '%d' ];
+
+        return $this->db->update( $this->table, $data, $where, $format, $where_format );
+
     }
 
 }
