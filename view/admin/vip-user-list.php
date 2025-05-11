@@ -14,6 +14,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
         }
         $users_plans = new Jialivs_User_Vip_Plan();
         $users_plans->delete_user_vip_plan( $user_id ); 
+        Jialivs_Flash_Message::addMessage( 'پلن با موفقیت حذف شد!', 0 );
         wp_redirect( remove_query_arg( ['action', 'id'] ) );
         exit;
     }
@@ -91,12 +92,13 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
             $user_plan = new Jialivs_User_Vip_Plan();
             $user_plan->edit_user_vip_plan( $user_id, $plan_id,$start_date, $expiration_date);
+            Jialivs_Flash_Message::addMessage( 'بروزرسانی با موفقیت انجام شد!', 1 );
             wp_redirect( remove_query_arg( ['action', 'id'] ) );
             exit;
 
         } catch( Exception $ex )
         {
-            wp_die($ex->getMessage());
+            Jialivs_Flash_Message::addMessage( $ex->getMessage(), 0 );
             exit;
         }
         
@@ -128,10 +130,11 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
             $user_id = $user->ID;
             $user_plan = new Jialivs_User_Vip_Plan();
             $user_plan->update_user_vip_plan( $user_id, $plan_id );
+            Jialivs_Flash_Message::addMessage( 'پلن با موفقیت ثبت شد!', 1 );
 
         } catch( Exception $ex )
         {
-            wp_die($ex->getMessage());
+            Jialivs_Flash_Message::addMessage( $ex->getMessage(), 0 );
             exit;
         }
         
@@ -141,6 +144,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 ?>
 
 <div class="uk-container">
+    <?php Jialivs_Flash_Message::showMessage( ); ?>
     <div class="uk-flex uk-flex-between">
         <h1 class="uk-heading-divider">
             <?php echo get_admin_page_title(  ) ?>
