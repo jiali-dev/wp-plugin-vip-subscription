@@ -79,10 +79,10 @@ class Jialivs_Payment {
             if ( isset($result['data']['code']) && $result['data']['code'] == 100 ) {
                 self::$refID = $result['data']['ref_id'];
                 $transaction = new JialivsTransaction();
-                $transaction->update( $result['data']['ref_id'], Jialivs_Session::get('user_plan_data')['order_number'] );
+                $transaction->update( $result['data']['ref_id'], JialivsSession::get('user_plan_data')['order_number'] );
                 $user_vip_plan = new JialivsUserVipPlan();
-                $user_vip_plan->updateUserVipPlan( Jialivs_Session::get('user_plan_data')['user_id'], Jialivs_Session::get('user_plan_data')['plan_type'] );
-                Jialivs_Session::unset('user_plan_data');
+                $user_vip_plan->updateUserVipPlan( JialivsSession::get('user_plan_data')['user_id'], JialivsSession::get('user_plan_data')['plan_type'] );
+                JialivsSession::unset('user_plan_data');
             } else {
                 self::$errCode = $result['errors']['code'];
                 self::$errMessage = $result['errors']['message'];

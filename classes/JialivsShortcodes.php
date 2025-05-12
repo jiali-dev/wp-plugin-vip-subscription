@@ -103,7 +103,7 @@ class JialivsShortcodes {
         
         $current_user_info = wp_get_current_user();
 
-        Jialivs_Session::set( 'user_plan_data', [
+        JialivsSession::set( 'user_plan_data', [
             'sesseion_id' => session_id(),
             'plan_type' => $vip_plan->type,
             'user_id' => $current_user_info->ID,
@@ -113,7 +113,7 @@ class JialivsShortcodes {
             'price' => $vip_plan->price,
             'order_number' => JialivsHelper::orderNumber()
         ]);
-        if( Jialivs_Session::has( 'user_plan_data' ) )
+        if( JialivsSession::has( 'user_plan_data' ) )
         {
             wp_redirect( home_url( sanitize_text_field(get_option('_vip_settings')['checkout_slug']) ) );
         } else 
@@ -128,10 +128,10 @@ class JialivsShortcodes {
         // Handle form submission BEFORE any output
         if ( isset($_POST['pay']) ) {
             $transaction = new JialivsTransaction();
-            $result = $transaction->save(Jialivs_Session::get('user_plan_data'));
+            $result = $transaction->save(JialivsSession::get('user_plan_data'));
             if( $result )
             {
-                Jialivs_Payment::setter(Jialivs_Session::get('user_plan_data'));
+                Jialivs_Payment::setter(JialivsSession::get('user_plan_data'));
                 Jialivs_Payment::request();
 
                 // Redirect to payment gateway
@@ -145,7 +145,7 @@ class JialivsShortcodes {
 
         ob_start();
 
-        $user_plan_data = Jialivs_Session::get('user_plan_data');
+        $user_plan_data = JialivsSession::get('user_plan_data');
 
         ?>
             <div class="order-checkout">
@@ -185,8 +185,8 @@ class JialivsShortcodes {
     public function jialivsPaymentResultShortcode() {
         ob_start();
 
-        $user_plan_data = Jialivs_Session::get('user_plan_data');
-        Jialivs_Payment::setter(Jialivs_Session::get('user_plan_data'));
+        $user_plan_data = JialivsSession::get('user_plan_data');
+        Jialivs_Payment::setter(JialivsSession::get('user_plan_data'));
         Jialivs_Payment::payment_result();
         ?>
         <?php if( Jialivs_Payment::getRefID() ): ?>
