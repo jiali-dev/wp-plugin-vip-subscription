@@ -7,7 +7,7 @@ class Jialivs_Payment {
 
     protected static $merchant_id;
     protected static $amount;
-    protected static $callback_url = 'payment-result';
+    protected static $callback_url = sanitize_text_field( get_option('_vip_settings')['payment-result'] );
     protected static $description;
     protected static $metadata;
     protected static $refID;
@@ -92,7 +92,7 @@ class Jialivs_Payment {
 
     public static function setter($data) {
         self::$amount = isset( $data['price'] ) ? $data['price'] * 10 : '';
-        self::$merchant_id = get_option('_merchant_id');
+        self::$merchant_id = sanitize_text_field(get_option('_merchant_id'));
         self::$description = isset( $data['plan_type'] ) ? Jialivs_Plan::get_plan_title($data['plan_type']) : '';
         self::$metadata = [
             'email' => isset( $data['email'] ) ? $data['email'] : '',

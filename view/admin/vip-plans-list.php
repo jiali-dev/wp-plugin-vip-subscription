@@ -105,13 +105,11 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
             Jialivs_Flash_Message::addMessage( 'بروزرسانی با موفقیت انجام شد!', 1 );
 
             wp_redirect( remove_query_arg( ['action', 'id'] ) );
-            exit;
 
         } catch( Exception $ex )
         {
             Jialivs_Flash_Message::addMessage( $ex->getMessage(), 0 );
             wp_redirect( remove_query_arg( ['action', 'id'] ) );
-            exit;
         }
         
     }

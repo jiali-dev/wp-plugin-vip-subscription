@@ -59,7 +59,7 @@ class Jialivs_Shortcodes {
                                             </ul>
                                         </div>
                                         <div class="packages_bottombody">
-                                            <form action="<?php echo site_url('vip-gateway') ?>" method="post" >
+                                            <form action="<?php echo site_url(sanitize_text_field(get_option('_vip_settings')['gateway_slug'])) ?>" method="post" >
                                                 <input type="hidden" name="plan_id" value="<?php echo $vip_plan->id ?>">
                                                 <?php wp_nonce_field( 'vip-plan-nonce', 'vip-plan-nonce' ) ?>
                                                 <input class="btn-pricing" type="submit" value="انتخاب">
@@ -116,7 +116,7 @@ class Jialivs_Shortcodes {
 
         if( Jialivs_Session::has( 'user_plan_data' ) )
         {
-            wp_redirect( home_url( 'vip-plans-checkout' ) );
+            wp_redirect( home_url( sanitize_text_field(get_option('_vip_settings')['vip-plans-checkout']) ) );
         } else 
         {
             wp_redirect( home_url() );

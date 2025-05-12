@@ -79,5 +79,5 @@ function jialivs_vip_transactions_page() {
 
 // Submenu Page 3: تنظیمات
 function jialivs_vip_settings_page() {
-    echo '<div class="wrap"><h2>تنظیمات</h2><p>در این بخش تنظیمات VIP را مشاهده می‌کنید.</p></div>';
+    include_once( JIALIVS_PLUGIN_PATH.'/view/admin/vip-settings.php' );
 }
