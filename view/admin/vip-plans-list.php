@@ -14,7 +14,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
         }
         $vip_plan = new Jialivs_Plan();
         $vip_plan->delete( $plan_id ); 
-        Jialivs_Flash_Message::addMessage( 'پلن با موفقیت حذف شد!', 0 );
+        JialivsFlashMessage::addMessage( 'پلن با موفقیت حذف شد!', 0 );
         wp_redirect( remove_query_arg( ['action', 'id'] ) );
         exit;
     }
@@ -101,13 +101,13 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
             $vip_plan = new Jialivs_Plan();
             $update = $vip_plan->edit_vip_plan( $plan_id, $price, $recommended, $status, $benefits);
-            Jialivs_Flash_Message::addMessage( 'بروزرسانی با موفقیت انجام شد!', 1 );
+            JialivsFlashMessage::addMessage( 'بروزرسانی با موفقیت انجام شد!', 1 );
 
             wp_redirect( remove_query_arg( ['action', 'id'] ) );
 
         } catch( Exception $ex )
         {
-            Jialivs_Flash_Message::addMessage( $ex->getMessage(), 0 );
+            JialivsFlashMessage::addMessage( $ex->getMessage(), 0 );
             wp_redirect( remove_query_arg( ['action', 'id'] ) );
         }
         
@@ -139,11 +139,11 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
             $plan_id = $user->ID;
             $user_plan = new Jialivs_Plan();
             $user_plan->updateUserVipPlan( $plan_id, $plan_id );
-            Jialivs_Flash_Message::addMessage( 'پلن با موفقیت ثبت شد!', 1 );
+            JialivsFlashMessage::addMessage( 'پلن با موفقیت ثبت شد!', 1 );
 
         } catch( Exception $ex )
         {
-            Jialivs_Flash_Message::addMessage( $ex->getMessage(), 0 );
+            JialivsFlashMessage::addMessage( $ex->getMessage(), 0 );
             exit;
         }
         
@@ -153,7 +153,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 ?>
 
 <div class="uk-container">
-    <?php Jialivs_Flash_Message::showMessage( ); ?>
+    <?php JialivsFlashMessage::showMessage( ); ?>
     <div class="uk-flex uk-flex-between">
         <h1 class="uk-heading-divider">
             <?php echo get_admin_page_title(  ) ?>

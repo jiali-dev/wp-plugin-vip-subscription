@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) exit;
 ?>
 
 <div class="uk-container">
-    <?php Jialivs_Flash_Message::showMessage( ); ?>
+    <?php JialivsFlashMessage::showMessage( ); ?>
     <div class="uk-flex uk-flex-between">
         <h1 class="uk-heading-divider">
             <?php echo get_admin_page_title(  ) ?>

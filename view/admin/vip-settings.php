@@ -35,13 +35,13 @@ $payment_result_slug = sanitize_text_field( $vip_settings['payment_result_slug']
                     'payment_result_slug' => $payment_result_slug,
                 ];
         
-                Jialivs_Flash_Message::addMessage( 'تنظیمات با موفقیت ذخیره شد!', 1 );
+                JialivsFlashMessage::addMessage( 'تنظیمات با موفقیت ذخیره شد!', 1 );
                 wp_redirect( admin_url( 'admin.php?page=jialivs_vip_settings' ) );
                 exit;
 
             } catch( Exception $ex )
             {
-                Jialivs_Flash_Message::addMessage( $ex->getMessage(), 0 );
+                JialivsFlashMessage::addMessage( $ex->getMessage(), 0 );
                 wp_redirect( admin_url( 'admin.php?page=jialivs_vip_settings' ) );
                 exit;
 
@@ -51,7 +51,7 @@ $payment_result_slug = sanitize_text_field( $vip_settings['payment_result_slug']
 ?>
 
 <div class="uk-container">
-    <?php Jialivs_Flash_Message::showMessage( ); ?>
+    <?php JialivsFlashMessage::showMessage( ); ?>
     <div class="uk-flex uk-flex-between">
         <h1 class="uk-heading-divider">
             <?php echo get_admin_page_title(  ) ?>
