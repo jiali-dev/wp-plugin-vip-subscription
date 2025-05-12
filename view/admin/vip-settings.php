@@ -35,8 +35,6 @@ $payment_result_slug = sanitize_text_field( $vip_settings['payment_result_slug']
                     'payment_result_slug' => $payment_result_slug,
                 ];
         
-                jve_pretty_var_dump(update_option( '_vip_settings', $settings ));
-        
                 Jialivs_Flash_Message::addMessage( 'تنظیمات با موفقیت ذخیره شد!', 1 );
                 wp_redirect( admin_url( 'admin.php?page=jialivs_vip_settings' ) );
                 exit;
