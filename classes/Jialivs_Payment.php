@@ -80,8 +80,8 @@ class Jialivs_Payment {
                 self::$refID = $result['data']['ref_id'];
                 $transaction = new JialivsTransaction();
                 $transaction->update( $result['data']['ref_id'], Jialivs_Session::get('user_plan_data')['order_number'] );
-                $user_vip_plan = new Jialivs_User_Vip_Plan();
-                $user_vip_plan->update_user_vip_plan( Jialivs_Session::get('user_plan_data')['user_id'], Jialivs_Session::get('user_plan_data')['plan_type'] );
+                $user_vip_plan = new JialivsUserVipPlan();
+                $user_vip_plan->updateUserVipPlan( Jialivs_Session::get('user_plan_data')['user_id'], Jialivs_Session::get('user_plan_data')['plan_type'] );
                 Jialivs_Session::unset('user_plan_data');
             } else {
                 self::$errCode = $result['errors']['code'];

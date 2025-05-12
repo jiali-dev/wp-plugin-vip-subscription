@@ -138,7 +138,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
             $plan_id = $user->ID;
             $user_plan = new Jialivs_Plan();
-            $user_plan->update_user_vip_plan( $plan_id, $plan_id );
+            $user_plan->updateUserVipPlan( $plan_id, $plan_id );
             Jialivs_Flash_Message::addMessage( 'پلن با موفقیت ثبت شد!', 1 );
 
         } catch( Exception $ex )

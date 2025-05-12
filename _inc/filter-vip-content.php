@@ -5,8 +5,8 @@ if (!defined('ABSPATH')) exit;
 
 // Add filter
 function jialivs_filter_vip_content( $content ) {
-    $user_vip_plan = new Jialivs_User_Vip_Plan();
-    if( is_single(  ) && !$user_vip_plan->is_user_vip( get_current_user_id(  ) ) ) {
+    $user_vip_plan = new JialivsUserVipPlan();
+    if( is_single(  ) && !$user_vip_plan->isUserVip( get_current_user_id(  ) ) ) {
         return mb_substr($content, 0, 500, 'UTF-8' ) . '...' . '<div class="alert alert-danger">برای مطالعه ادامه مطلب، اکانت vip تهیه نمایید</div>';
     }
     return $content;
