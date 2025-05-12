@@ -3,7 +3,7 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-class Jialivs_Flash_Message {
+class JialivsFlashMessage {
 
     const ERROR = 0;
     const SUCCESS = 1;

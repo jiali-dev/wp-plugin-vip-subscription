@@ -3,7 +3,7 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-class Jialivs_Session {
+class JialivsSession {
 
     public static function has( $key ) {
         return array_key_exists( $key, $_SESSION );

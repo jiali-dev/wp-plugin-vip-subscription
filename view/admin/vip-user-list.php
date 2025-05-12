@@ -12,9 +12,9 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
         if (!current_user_can('manage_options')) {
             wp_die(__('You are not allowed to do this', 'jialivs'));
         }
-        $users_plans = new Jialivs_User_Vip_Plan();
-        $users_plans->delete_user_vip_plan( $user_id ); 
-        Jialivs_Flash_Message::addMessage( 'پلن با موفقیت حذف شد!', 0 );
+        $users_plans = new JialivsUserVipPlan();
+        $users_plans->deleteUserVipPlan( $user_id ); 
+        JialivsFlashMessage::addMessage( 'پلن با موفقیت حذف شد!', 0 );
         wp_redirect( remove_query_arg( ['action', 'id'] ) );
         exit;
     }
@@ -22,7 +22,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
     if( $action == 'update' && !empty($user_id) ) {
 
         $user_info = get_userdata( $user_id );
-        $vip_user_plan = new Jialivs_User_Vip_Plan();
+        $vip_user_plan = new JialivsUserVipPlan();
         $user_plan = $vip_user_plan->find($user_id);
         ?>
             <script>
@@ -90,15 +90,15 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
             if( empty($plan_id) || empty($start_date) || empty($expiration_date) )
                 throw new Exception( __( 'Fill All fields!', 'jialivs' ) , 403 );
 
-            $user_plan = new Jialivs_User_Vip_Plan();
-            $user_plan->edit_user_vip_plan( $user_id, $plan_id,$start_date, $expiration_date);
-            Jialivs_Flash_Message::addMessage( 'بروزرسانی با موفقیت انجام شد!', 1 );
+            $user_plan = new JialivsUserVipPlan();
+            $user_plan->editUserVipPlan( $user_id, $plan_id,$start_date, $expiration_date);
+            JialivsFlashMessage::addMessage( 'بروزرسانی با موفقیت انجام شد!', 1 );
             wp_redirect( remove_query_arg( ['action', 'id'] ) );
             exit;
 
         } catch( Exception $ex )
         {
-            Jialivs_Flash_Message::addMessage( $ex->getMessage(), 0 );
+            JialivsFlashMessage::addMessage( $ex->getMessage(), 0 );
             exit;
         }
         
@@ -128,13 +128,13 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
                 throw new Exception( __( 'User is not exist!', 'jialivs' ) , 403 );
 
             $user_id = $user->ID;
-            $user_plan = new Jialivs_User_Vip_Plan();
-            $user_plan->update_user_vip_plan( $user_id, $plan_id );
-            Jialivs_Flash_Message::addMessage( 'پلن با موفقیت ثبت شد!', 1 );
+            $user_plan = new JialivsUserVipPlan();
+            $user_plan->updateUserVipPlan( $user_id, $plan_id );
+            JialivsFlashMessage::addMessage( 'پلن با موفقیت ثبت شد!', 1 );
 
         } catch( Exception $ex )
         {
-            Jialivs_Flash_Message::addMessage( $ex->getMessage(), 0 );
+            JialivsFlashMessage::addMessage( $ex->getMessage(), 0 );
             exit;
         }
         
@@ -144,7 +144,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 ?>
 
 <div class="uk-container">
-    <?php Jialivs_Flash_Message::showMessage( ); ?>
+    <?php JialivsFlashMessage::showMessage( ); ?>
     <div class="uk-flex uk-flex-between">
         <h1 class="uk-heading-divider">
             <?php echo get_admin_page_title(  ) ?>
@@ -167,8 +167,8 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
         </thead>
         <tbody>
             <?php 
-                $users_plans = new Jialivs_User_Vip_Plan();
-                $results = $users_plans->get_users_vip_plans();
+                $users_plans = new JialivsUserVipPlan();
+                $results = $users_plans->getUsersVipPlans();
             ?>
             <?php if( $results ): ?>
                 <?php foreach( $results as $item ): 
@@ -178,10 +178,10 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
                         <td><?php echo $user_info->ID ?></td>
                         <td><?php echo $user_info->display_name ?></td>
                         <td><?php echo $user_info->user_email ?></td>
-                        <td><?php echo Jialivs_Plan::get_plan_title($item->plan_type) ?></td>
+                        <td><?php echo JialivsPlan::getPlanTitle($item->plan_type) ?></td>
                         <td><?php echo jdate('Y-m-d', strtotime($item->start_date) ) ?></td>
                         <td><?php echo jdate('Y-m-d', strtotime($item->expiration_date) ) ?></td>
-                        <td><?php echo Jialivs_User_Vip_Plan::calculate_remaining_time($item->expiration_date) ?></td>
+                        <td><?php echo JialivsUserVipPlan::calculateRemainingTime($item->expiration_date) ?></td>
                         <td><?php echo $item->expiration_date >= date('Y-m-d') ? '<span class="uk-alert-success" >فعال</span>' : '<span class="uk-alert-danger" >غیر فعال</span>' ?></td>
                         <td>
                             <a uk-tooltip="title: حذف پلن" href="<?php echo add_query_arg( ['action' => 'delete', 'id' => $user_info->ID ] ) ?>" uk-icon="icon: trash"></a>

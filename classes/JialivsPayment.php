@@ -3,7 +3,7 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-class Jialivs_Payment {
+class JialivsPayment {
 
     protected static $merchant_id;
     protected static $amount;
@@ -54,7 +54,7 @@ class Jialivs_Payment {
 
     }
 
-    public static function payment_result() {
+    public static function paymentResult() {
         $Authority = $_GET['Authority'];
         $data = array("merchant_id" => self::$merchant_id, "authority" => $Authority, "amount" => self::$amount);
         $jsonData = json_encode($data);
@@ -78,11 +78,11 @@ class Jialivs_Payment {
         } else {
             if ( isset($result['data']['code']) && $result['data']['code'] == 100 ) {
                 self::$refID = $result['data']['ref_id'];
-                $transaction = new Jialivs_Transaction();
-                $transaction->update( $result['data']['ref_id'], Jialivs_Session::get('user_plan_data')['order_number'] );
-                $user_vip_plan = new Jialivs_User_Vip_Plan();
-                $user_vip_plan->update_user_vip_plan( Jialivs_Session::get('user_plan_data')['user_id'], Jialivs_Session::get('user_plan_data')['plan_type'] );
-                Jialivs_Session::unset('user_plan_data');
+                $transaction = new JialivsTransaction();
+                $transaction->update( $result['data']['ref_id'], JialivsSession::get('user_plan_data')['order_number'] );
+                $user_vip_plan = new JialivsUserVipPlan();
+                $user_vip_plan->updateUserVipPlan( JialivsSession::get('user_plan_data')['user_id'], JialivsSession::get('user_plan_data')['plan_type'] );
+                JialivsSession::unset('user_plan_data');
             } else {
                 self::$errCode = $result['errors']['code'];
                 self::$errMessage = $result['errors']['message'];
@@ -93,7 +93,7 @@ class Jialivs_Payment {
     public static function setter($data) {
         self::$amount = isset( $data['price'] ) ? $data['price'] * 10 : '';
         self::$merchant_id = sanitize_text_field(get_option('_merchant_id'));
-        self::$description = isset( $data['plan_type'] ) ? Jialivs_Plan::get_plan_title($data['plan_type']) : '';
+        self::$description = isset( $data['plan_type'] ) ? JialivsPlan::getPlanTitle($data['plan_type']) : '';
         self::$metadata = [
             'email' => isset( $data['email'] ) ? $data['email'] : '',
             'mobile' => isset( $data['mobile'] ) ? $data['mobile'] : '00000000000'

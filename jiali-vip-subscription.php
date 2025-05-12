@@ -20,10 +20,10 @@ if( session_status() == 1 )
     session_start();
 
 // Include Core class
-require_once plugin_dir_path(__FILE__) . 'Core.php';
+require_once plugin_dir_path(__FILE__) . 'JialivsCore.php';
 
 // Start plugin
-Core::get_instance();
+JialivsCore::getInstance();
 
 // Register activation hook
-register_activation_hook(__FILE__, ['Core', 'vip_activation']);
+register_activation_hook(__FILE__, ['JialivsCore', 'vipActivation']);

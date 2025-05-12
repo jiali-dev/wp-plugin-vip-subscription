@@ -3,7 +3,7 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-class Jialivs_User_Vip_Plan {
+class JialivsUserVipPlan {
 
     private $db;
     private $table;
@@ -24,7 +24,7 @@ class Jialivs_User_Vip_Plan {
         return false;
     }
 
-    public function is_user_vip( $user_id ) {
+    public function isUserVip( $user_id ) {
         
         $res = self::find( $user_id );
         
@@ -36,7 +36,7 @@ class Jialivs_User_Vip_Plan {
         return false;
     }
 
-    public function update_user_vip_plan( $user_id, $plan_type ) {
+    public function updateUserVipPlan( $user_id, $plan_type ) {
         
         $is_user_exist = self::find( $user_id );
 
@@ -104,7 +104,7 @@ class Jialivs_User_Vip_Plan {
 
     }
 
-    public function get_users_vip_plans() {
+    public function getUsersVipPlans() {
         
         $stmt = $this->db->get_results( $this->db->prepare( "SELECT * FROM {$this->table}" ) );
         
@@ -112,7 +112,7 @@ class Jialivs_User_Vip_Plan {
 
     }
 
-    public function delete_user_vip_plan( $user_id ) {
+    public function deleteUserVipPlan( $user_id ) {
         
         $stmt = $this->db->delete( $this->table, [ 'user_id' => $user_id ], [ '%d' ] );
         
@@ -120,7 +120,7 @@ class Jialivs_User_Vip_Plan {
 
     }
     
-    public static function calculate_remaining_time( $expiration_date ) {
+    public static function calculateRemainingTime( $expiration_date ) {
         
         $current_date = date('Y-m-d');
         $remaining_time = strtotime($expiration_date) - strtotime($current_date);
@@ -134,7 +134,7 @@ class Jialivs_User_Vip_Plan {
         return $days_remaining . ' روز باقی مانده';
     }
 
-    public function edit_user_vip_plan(  $user_id, $plan_type, $start_date, $expiration_date ) {
+    public function editUserVipPlan(  $user_id, $plan_type, $start_date, $expiration_date ) {
 
         $data = [
             'plan_type' => $plan_type,
