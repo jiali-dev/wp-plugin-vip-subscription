@@ -3,16 +3,16 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-class Jialivs_Shortcodes {
+class JialivsShortcodes {
 
     public function __construct() {
-        add_shortcode('jialivs_plans_shortcode', [$this, 'jialivs_plans_shortcode']);
-        add_shortcode('jialivs_plans_checkout_shortcode', [$this, 'jialivs_plans_checkout_shortcode']);
-        add_shortcode('jialivs_plans_gateway_shortcode', [$this, 'jialivs_plans_gateway_shortcode']);
-        add_shortcode('jialivs_payment_result_shortcode', [$this, 'jialivs_payment_result_shortcode']);
+        add_shortcode('jialivsPlansShortcode', [$this, 'jialivsPlansShortcode']);
+        add_shortcode('jialivsPlansCheckoutShortcode', [$this, 'jialivsPlansCheckoutShortcode']);
+        add_shortcode('jialivsPlansGatewayShortcode', [$this, 'jialivsPlansGatewayShortcode']);
+        add_shortcode('jialivsPaymentResultShortcode', [$this, 'jialivsPaymentResultShortcode']);
     }
 
-    public function jialivs_plans_shortcode() {
+    public function jialivsPlansShortcode() {
         
         ob_start();
         ?>
@@ -85,7 +85,7 @@ class Jialivs_Shortcodes {
     }
 
     // Plans gateway
-    public function jialivs_plans_gateway_shortcode() {
+    public function jialivsPlansGatewayShortcode() {
         ob_start();
 
         if ( empty($_POST['vip-plan-nonce']) || !isset($_POST['vip-plan-nonce']) || !wp_verify_nonce( $_POST['vip-plan-nonce'], 'vip-plan-nonce' ) )
@@ -124,7 +124,7 @@ class Jialivs_Shortcodes {
     }
 
     // Plans Checkout
-    public function jialivs_plans_checkout_shortcode() {
+    public function jialivsPlansCheckoutShortcode() {
         // Handle form submission BEFORE any output
         if ( isset($_POST['pay']) ) {
             $transaction = new JialivsTransaction();
@@ -182,7 +182,7 @@ class Jialivs_Shortcodes {
     }
 
     // Payment Result
-    public function jialivs_payment_result_shortcode() {
+    public function jialivsPaymentResultShortcode() {
         ob_start();
 
         $user_plan_data = Jialivs_Session::get('user_plan_data');

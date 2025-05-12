@@ -44,7 +44,7 @@ class JialivsCore {
         add_action('wp_enqueue_scripts', [$this, 'registerAssets']);
         add_action('admin_enqueue_scripts', [$this, 'adminRegisterAssets']);
         include_once(JIALIVS_PLUGIN_PATH.'_lib/jdf.php');
-        new Jialivs_Shortcodes();
+        new JialivsShortcodes();
         include_once( ABSPATH.'wp-includes/pluggable.php'); // For gettin wp_get_current_user and etc. 
         include_once( JIALIVS_PLUGIN_PATH.'_inc/vip-metabox.php'); 
         include_once( JIALIVS_PLUGIN_PATH.'_inc/filter-vip-content.php'); 
