@@ -111,7 +111,7 @@ class JialivsShortcodes {
             'last_name' => $current_user_info->last_name,
             'email' => $current_user_info->user_email,
             'price' => $vip_plan->price,
-            'order_number' => Jialivs_Helper::orderNumber()
+            'order_number' => JialivsHelper::orderNumber()
         ]);
         if( Jialivs_Session::has( 'user_plan_data' ) )
         {
