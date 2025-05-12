@@ -49,6 +49,17 @@ class Core {
         include_once( JIALIVS_PLUGIN_PATH.'_inc/vip-metabox.php'); 
         include_once( JIALIVS_PLUGIN_PATH.'_inc/filter-vip-content.php'); 
         include_once( JIALIVS_PLUGIN_PATH.'_inc/panel/menu.php'); 
+        // Initialize Settings
+        if( get_option( '_vip_settings', '__not_set__' ) === '__not_set__' ) {
+            $default_settings = [
+                'merchant_id' => '',
+                'gateway_slug' => 'vip-gateway',
+                'checkout_slug' => 'vip-plans-checkout',
+                'payment_result_slug' => 'payment-result',
+            ];
+            update_option( '_vip_settings', $default_settings );
+        }
+
     }
 
     public static function vip_activation() {

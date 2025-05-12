@@ -96,7 +96,6 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
             $recommended = isset($_POST['recommended']) ? intval($_POST['recommended']) : '';
             $status = isset($_POST['status']) ? intval($_POST['status']) : '';
             $benefits = isset($_POST['benefits']) ? sanitize_textarea_field($_POST['benefits']) : '';
-            // wp_die(jve_pretty_var_dump( empty($recommended)));
             if( empty($plan_id) || empty($price) || $recommended == '' || $status == '' || empty($benefits))
                 throw new Exception( __( 'Fill All fields!', 'jialivs' ) , 403 );
 
@@ -105,13 +104,11 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
             Jialivs_Flash_Message::addMessage( 'بروزرسانی با موفقیت انجام شد!', 1 );
 
             wp_redirect( remove_query_arg( ['action', 'id'] ) );
-            exit;
 
         } catch( Exception $ex )
         {
             Jialivs_Flash_Message::addMessage( $ex->getMessage(), 0 );
             wp_redirect( remove_query_arg( ['action', 'id'] ) );
-            exit;
         }
         
     }
