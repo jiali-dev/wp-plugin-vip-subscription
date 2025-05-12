@@ -3,7 +3,7 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-class Jialivs_Transaction {
+class JialivsTransaction {
 
     private $db;
     private $table;

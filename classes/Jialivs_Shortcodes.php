@@ -127,7 +127,7 @@ class Jialivs_Shortcodes {
     public function jialivs_plans_checkout_shortcode() {
         // Handle form submission BEFORE any output
         if ( isset($_POST['pay']) ) {
-            $transaction = new Jialivs_Transaction();
+            $transaction = new JialivsTransaction();
             $result = $transaction->save(Jialivs_Session::get('user_plan_data'));
             if( $result )
             {

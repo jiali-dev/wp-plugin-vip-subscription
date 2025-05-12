@@ -28,7 +28,7 @@ if (!defined('ABSPATH')) exit;
         </thead>
         <tbody>
             <?php 
-                $transactions = new Jialivs_Transaction();
+                $transactions = new JialivsTransaction();
                 $results = $transactions->find();
             ?>
             <?php if( $results ): ?>
