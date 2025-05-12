@@ -178,7 +178,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
                         <td><?php echo $user_info->ID ?></td>
                         <td><?php echo $user_info->display_name ?></td>
                         <td><?php echo $user_info->user_email ?></td>
-                        <td><?php echo Jialivs_Plan::get_plan_title($item->plan_type) ?></td>
+                        <td><?php echo JialivsPlan::getPlanTitle($item->plan_type) ?></td>
                         <td><?php echo jdate('Y-m-d', strtotime($item->start_date) ) ?></td>
                         <td><?php echo jdate('Y-m-d', strtotime($item->expiration_date) ) ?></td>
                         <td><?php echo JialivsUserVipPlan::calculateRemainingTime($item->expiration_date) ?></td>

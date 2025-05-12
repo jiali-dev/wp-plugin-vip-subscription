@@ -93,7 +93,7 @@ class JialivsPayment {
     public static function setter($data) {
         self::$amount = isset( $data['price'] ) ? $data['price'] * 10 : '';
         self::$merchant_id = sanitize_text_field(get_option('_merchant_id'));
-        self::$description = isset( $data['plan_type'] ) ? Jialivs_Plan::get_plan_title($data['plan_type']) : '';
+        self::$description = isset( $data['plan_type'] ) ? JialivsPlan::getPlanTitle($data['plan_type']) : '';
         self::$metadata = [
             'email' => isset( $data['email'] ) ? $data['email'] : '',
             'mobile' => isset( $data['mobile'] ) ? $data['mobile'] : '00000000000'

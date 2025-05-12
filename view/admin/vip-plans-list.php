@@ -12,7 +12,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
         if (!current_user_can('manage_options')) {
             wp_die(__('You are not allowed to do this', 'jialivs'));
         }
-        $vip_plan = new Jialivs_Plan();
+        $vip_plan = new JialivsPlan();
         $vip_plan->delete( $plan_id ); 
         JialivsFlashMessage::addMessage( 'پلن با موفقیت حذف شد!', 0 );
         wp_redirect( remove_query_arg( ['action', 'id'] ) );
@@ -21,8 +21,8 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
 
     if( $action == 'update' && !empty($plan_id) ) {
 
-        $plan = new Jialivs_Plan();
-        $vip_plan = $plan->find_by_id($plan_id);
+        $plan = new JialivsPlan();
+        $vip_plan = $plan->findByID($plan_id);
         ?>
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
@@ -37,7 +37,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
                         <fieldset class="uk-fieldset">
 
                             <div class="uk-alert-primary" uk-alert>
-                                <div class="uk-alert-primary"><?php echo $plan::get_plan_title($vip_plan->type); ?></div>
+                                <div class="uk-alert-primary"><?php echo $plan::getPlanTitle($vip_plan->type); ?></div>
                             </div>
 
                             <div class="uk-margin">
@@ -99,8 +99,8 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
             if( empty($plan_id) || empty($price) || $recommended == '' || $status == '' || empty($benefits))
                 throw new Exception( __( 'Fill All fields!', 'jialivs' ) , 403 );
 
-            $vip_plan = new Jialivs_Plan();
-            $update = $vip_plan->edit_vip_plan( $plan_id, $price, $recommended, $status, $benefits);
+            $vip_plan = new JialivsPlan();
+            $update = $vip_plan->editVipPlan( $plan_id, $price, $recommended, $status, $benefits);
             JialivsFlashMessage::addMessage( 'بروزرسانی با موفقیت انجام شد!', 1 );
 
             wp_redirect( remove_query_arg( ['action', 'id'] ) );
@@ -137,7 +137,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
                 throw new Exception( __( 'User is not exist!', 'jialivs' ) , 403 );
 
             $plan_id = $user->ID;
-            $user_plan = new Jialivs_Plan();
+            $user_plan = new JialivsPlan();
             $user_plan->updateUserVipPlan( $plan_id, $plan_id );
             JialivsFlashMessage::addMessage( 'پلن با موفقیت ثبت شد!', 1 );
 
@@ -173,14 +173,14 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
         </thead>
         <tbody>
             <?php 
-                $plans = new Jialivs_Plan();
+                $plans = new JialivsPlan();
                 $results = $plans->find();
             ?>
             <?php if( $results ): ?>
                 <?php foreach( $results as $item ): ?>
                     <tr>
                         <td><?php echo $item->id ?></td>
-                        <td><?php echo $plans->get_plan_title($item->type) ?></td>
+                        <td><?php echo $plans->getPlanTitle($item->type) ?></td>
                         <td><?php echo $item->price ?></td>
                         <td><?php echo $item->benefits ?></td>
                         <td><?php echo $item->recommended ? '<span class="uk-alert-success" >بله</span>' : '<span class="uk-alert-danger" >خیر</span>' ?></td>

@@ -44,7 +44,7 @@ if (!defined('ABSPATH')) exit;
                         <td><?php echo $item->ref_id ?></td>
                         <td><?php echo $item->status ? '<span class="uk-alert-success" >موفق</span>' : '<span class="uk-alert-danger" >ناموفق</span>' ?></td>
                         <td><?php echo jdate($item->created_at) ?></td>
-                        <td><?php echo Jialivs_Plan::get_plan_title($item->plan_type) ?></td>
+                        <td><?php echo JialivsPlan::getPlanTitle($item->plan_type) ?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>

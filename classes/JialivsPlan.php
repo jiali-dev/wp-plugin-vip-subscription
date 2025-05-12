@@ -3,7 +3,7 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-class Jialivs_Plan {
+class JialivsPlan {
 
     private $db;
     private $table;
@@ -24,12 +24,12 @@ class Jialivs_Plan {
         return $stmt;
     }
 
-    public function find_by_id($plan_id) {
+    public function findByID($plan_id) {
         $stmt = $this->db->get_row($this->db->prepare("SELECT * FROM {$this->table} WHERE id = %d", $plan_id));
         return $stmt;
     }
 
-    public static function get_plan_title($plan_type) {
+    public static function getPlanTitle($plan_type) {
         $vip_plan_title = '';
         switch($plan_type) {
             case 1:
@@ -45,7 +45,7 @@ class Jialivs_Plan {
         return $vip_plan_title;
     }
 
-    public static function get_plan_icon($plan_type) {
+    public static function getPlanIcon($plan_type) {
         $vip_plan_icon = 'lni-layers';
         switch($plan_type) {
             case 1:
@@ -61,7 +61,7 @@ class Jialivs_Plan {
         return $vip_plan_icon;
     }
 
-    public function edit_vip_plan(  $id, $price, $recommended, $status, $benefits ) {
+    public function editVipPlan(  $id, $price, $recommended, $status, $benefits ) {
 
         $data = [
             'price' => $price,

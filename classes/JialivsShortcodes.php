@@ -31,7 +31,7 @@ class JialivsShortcodes {
                     <div class="row">
 
                         <?php 
-                            $plan = new Jialivs_Plan(); 
+                            $plan = new JialivsPlan(); 
                             $vip_plans = $plan->find();
                         ?>
                         <?php if( !is_wp_error($vip_plans) && !empty($vip_plans) ): ?>
@@ -41,9 +41,9 @@ class JialivsShortcodes {
                                 <div class="col-lg-4 col-md-4">
                                     <div class="packages_wrapping <?php echo $vip_plan->recommended ? 'recommended' :'bg-white' ?>">
                                         <div class="packages_headers">
-                                            <i class="<?php echo $plan->get_plan_icon($vip_plan->type) ?>"></i>
-                                            <h4 class="packages_pr_title"><?php echo $plan->get_plan_title($vip_plan->type) ?></h4>
-                                            <span class="packages_price-subtitle">با <?php echo $plan->get_plan_title($vip_plan->type) ?> شروع کنید!</span>
+                                            <i class="<?php echo $plan->getPlanIcon($vip_plan->type) ?>"></i>
+                                            <h4 class="packages_pr_title"><?php echo $plan->getPlanTitle($vip_plan->type) ?></h4>
+                                            <span class="packages_price-subtitle">با <?php echo $plan->getPlanTitle($vip_plan->type) ?> شروع کنید!</span>
                                         </div>
                                         <div class="packages_price">
                                             <h4 class="pr-value"><?php echo $vip_plan->price/1000 ?></h4>
@@ -98,8 +98,8 @@ class JialivsShortcodes {
             wp_redirect(home_url( ));
 
         $plan_id = intval($_POST['plan_id']);
-        $plan = new Jialivs_Plan(); 
-        $vip_plan = $plan->find_by_id($plan_id);
+        $plan = new JialivsPlan(); 
+        $vip_plan = $plan->findByID($plan_id);
         
         $current_user_info = wp_get_current_user();
 
@@ -153,7 +153,7 @@ class JialivsShortcodes {
                     <div class="packages_wrapping bg-white">
                         <div class="packages_headers">
                             <i class="lni-paypal"></i>
-                            <h4 class="packages_pr_title"><?php echo Jialivs_Plan::get_plan_title($user_plan_data['plan_type']) ?></h4>
+                            <h4 class="packages_pr_title"><?php echo JialivsPlan::getPlanTitle($user_plan_data['plan_type']) ?></h4>
                             <div class="packages_date">
                                 <span>تاریخ:</span>
                                 <span><?php echo jdate("d-m-Y") ?></span>
@@ -195,7 +195,7 @@ class JialivsShortcodes {
                     <div class="packages_wrapping bg-white">
                         <div class="packages_headers">
                             <i class="lni-paypal"></i>
-                            <h4 class="packages_pr_title">رسید پرداخت برای <?php echo Jialivs_Plan::get_plan_title($user_plan_data['plan_type']) ?></h4>
+                            <h4 class="packages_pr_title">رسید پرداخت برای <?php echo JialivsPlan::getPlanTitle($user_plan_data['plan_type']) ?></h4>
                             <div class="packages_ref">
                                 <span>شماره تراکنش:</span>
                                 <span><?php echo JialivsPayment::getRefID() ?></span>
