@@ -67,7 +67,7 @@ class JialivsCore {
     }
 
     public function registerAssets() {
-        if (JialivsCheckAssets::check_bootstrap_enqueue()) {
+        if (JialivsCheckAssets::checkBootstrapEnqueue()) {
             wp_enqueue_style('jialivs-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css', [], '5.3.0-alpha1');
         }
 
@@ -75,7 +75,7 @@ class JialivsCore {
 
         wp_enqueue_script('jialivs-script', JIALIVS_PLUGIN_URL . '/assets/js/front/main.js', ['jquery'], '1.0.0', true);
 
-        if (JialivsCheckAssets::check_bootstrap_js_enqueue()) {
+        if (JialivsCheckAssets::checkBootstrapJsEnqueue()) {
             wp_enqueue_script('jialivs-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js', ['jquery'], '5.3.0-alpha1', true);
         }
     }
