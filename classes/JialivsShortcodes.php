@@ -6,10 +6,10 @@ if (!defined('ABSPATH')) exit;
 class JialivsShortcodes {
 
     public function __construct() {
-        add_shortcode('jialivsPlansShortcode', [$this, 'jialivsPlansShortcode']);
-        add_shortcode('jialivsPlansCheckoutShortcode', [$this, 'jialivsPlansCheckoutShortcode']);
-        add_shortcode('jialivsPlansGatewayShortcode', [$this, 'jialivsPlansGatewayShortcode']);
-        add_shortcode('jialivsPaymentResultShortcode', [$this, 'jialivsPaymentResultShortcode']);
+        add_shortcode('jialivs_plans_shortcode', [$this, 'jialivsPlansShortcode']);
+        add_shortcode('jialivs_plans_checkout_shortcode', [$this, 'jialivsPlansCheckoutShortcode']);
+        add_shortcode('jialivs_plans_gateway_shortcode', [$this, 'jialivsPlansGatewayShortcode']);
+        add_shortcode('jialivs_payment_result_shortcode', [$this, 'jialivsPaymentResultShortcode']);
     }
 
     public function jialivsPlansShortcode() {
