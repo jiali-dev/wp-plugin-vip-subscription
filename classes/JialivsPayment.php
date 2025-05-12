@@ -3,7 +3,7 @@
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
 
-class Jialivs_Payment {
+class JialivsPayment {
 
     protected static $merchant_id;
     protected static $amount;
@@ -54,7 +54,7 @@ class Jialivs_Payment {
 
     }
 
-    public static function payment_result() {
+    public static function paymentResult() {
         $Authority = $_GET['Authority'];
         $data = array("merchant_id" => self::$merchant_id, "authority" => $Authority, "amount" => self::$amount);
         $jsonData = json_encode($data);

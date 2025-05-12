@@ -131,8 +131,8 @@ class JialivsShortcodes {
             $result = $transaction->save(JialivsSession::get('user_plan_data'));
             if( $result )
             {
-                Jialivs_Payment::setter(JialivsSession::get('user_plan_data'));
-                Jialivs_Payment::request();
+                JialivsPayment::setter(JialivsSession::get('user_plan_data'));
+                JialivsPayment::request();
 
                 // Redirect to payment gateway
                 // wp_redirect( 'https://sandbox.zarinpal.com/pg/StartPay/4c2f3b5d-0a1e-4b7c-8f6d-9a0e1f3b5d0e' );
@@ -186,10 +186,10 @@ class JialivsShortcodes {
         ob_start();
 
         $user_plan_data = JialivsSession::get('user_plan_data');
-        Jialivs_Payment::setter(JialivsSession::get('user_plan_data'));
-        Jialivs_Payment::payment_result();
+        JialivsPayment::setter(JialivsSession::get('user_plan_data'));
+        JialivsPayment::paymentResult();
         ?>
-        <?php if( Jialivs_Payment::getRefID() ): ?>
+        <?php if( JialivsPayment::getRefID() ): ?>
             <div class="order-checkout">
                 <div class="col-lg-4 col-md-4">
                     <div class="packages_wrapping bg-white">
@@ -198,7 +198,7 @@ class JialivsShortcodes {
                             <h4 class="packages_pr_title">رسید پرداخت برای <?php echo Jialivs_Plan::get_plan_title($user_plan_data['plan_type']) ?></h4>
                             <div class="packages_ref">
                                 <span>شماره تراکنش:</span>
-                                <span><?php echo Jialivs_Payment::getRefID() ?></span>
+                                <span><?php echo JialivsPayment::getRefID() ?></span>
                             </div>
                         </div>
                         <div class="packages_price">
