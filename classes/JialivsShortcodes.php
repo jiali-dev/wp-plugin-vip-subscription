@@ -23,7 +23,7 @@ class JialivsShortcodes {
                     <div class="page-title mb-5">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12">
-                                        <h1 class="breadcrumb-title">اشتراک VIP</h1>
+                                    <h1 class="breadcrumb-title"><?php echo __('VIP subscription', 'jialivs') ?></h1>
                                 </div>
                             </div>
                     </div>
@@ -43,7 +43,7 @@ class JialivsShortcodes {
                                         <div class="packages_headers">
                                             <i class="<?php echo $plan->getPlanIcon($vip_plan->type) ?>"></i>
                                             <h4 class="packages_pr_title"><?php echo $plan->getPlanTitle($vip_plan->type) ?></h4>
-                                            <span class="packages_price-subtitle">با <?php echo $plan->getPlanTitle($vip_plan->type) ?> شروع کنید!</span>
+                                            <span class="packages_price-subtitle"><?php echo __('Start with', 'jialivs') ?> <?php echo $plan->getPlanTitle($vip_plan->type) ?> </span>
                                         </div>
                                         <div class="packages_price">
                                             <h4 class="pr-value"><?php echo $vip_plan->price/1000 ?></h4>
@@ -62,7 +62,7 @@ class JialivsShortcodes {
                                             <form action="<?php echo site_url(sanitize_text_field(get_option('_vip_settings')['gateway_slug'])) ?>" method="post" >
                                                 <input type="hidden" name="plan_id" value="<?php echo $vip_plan->id ?>">
                                                 <?php wp_nonce_field( 'vip-plan-nonce', 'vip-plan-nonce' ) ?>
-                                                <input class="btn-pricing" type="submit" value="انتخاب">
+                                                <input class="btn-pricing" type="submit" value="<?php echo __('choose ...', 'jialivs') ?>">
                                             </form>
                                         </div>
                                         
@@ -70,7 +70,7 @@ class JialivsShortcodes {
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <div class="alert alert-danger">تا کنون پلنی ثبت نشده است!</div>
+                            <div class="alert alert-danger"><?php echo __('There is no plan!', 'jialivs') ?></div>
                         <?php endif; ?>
                         
                     </div>
@@ -138,7 +138,7 @@ class JialivsShortcodes {
                 // wp_redirect( 'https://sandbox.zarinpal.com/pg/StartPay/4c2f3b5d-0a1e-4b7c-8f6d-9a0e1f3b5d0e' );
                 exit;
             } else {
-                echo '<div class="alert alert-danger">خطا در ثبت اطلاعات!</div>';
+                echo '<div class="alert alert-danger">'.__('An error was occured', 'jialivs').'</div>';
             }
 
         }
@@ -155,11 +155,11 @@ class JialivsShortcodes {
                             <i class="lni-paypal"></i>
                             <h4 class="packages_pr_title"><?php echo JialivsPlan::getPlanTitle($user_plan_data['plan_type']) ?></h4>
                             <div class="packages_date">
-                                <span>تاریخ:</span>
+                                <span><?php echo __('Date', 'jialivs') ?></span>
                                 <span><?php echo jdate("d-m-Y") ?></span>
                             </div>
                             <div class="packages_number">
-                                <span>شماره سفارش:</span>
+                                <span><?php echo __('Order number', 'jialivs') ?></span>
                                 <span><?php echo $user_plan_data['order_number'] ?></span>
                             </div>
                         </div>
@@ -168,7 +168,7 @@ class JialivsShortcodes {
                         </div>
                         <div class="packages_bottombody">
                             <form action="<?php //echo htmlspecialchars( site_url(get_permalink( )) ) ?>" method="post" >
-                                <input class="btn-pricing" name="pay" type="submit" value="پرداخت">
+                                <input class="btn-pricing" name="pay" type="submit" value="<?php echo __('Pay!', 'jialivs') ?>">
                             </form>
                         </div>
                         
@@ -195,9 +195,9 @@ class JialivsShortcodes {
                     <div class="packages_wrapping bg-white">
                         <div class="packages_headers">
                             <i class="lni-paypal"></i>
-                            <h4 class="packages_pr_title">رسید پرداخت برای <?php echo JialivsPlan::getPlanTitle($user_plan_data['plan_type']) ?></h4>
+                            <h4 class="packages_pr_title"><?php echo __('Payment reciept for:', 'jialivs') ?> <?php echo JialivsPlan::getPlanTitle($user_plan_data['plan_type']) ?></h4>
                             <div class="packages_ref">
-                                <span>شماره تراکنش:</span>
+                                <span><?php echo __('Transaction number', 'jialivs') ?></span>
                                 <span><?php echo JialivsPayment::getRefID() ?></span>
                             </div>
                         </div>
@@ -205,14 +205,14 @@ class JialivsShortcodes {
                             <h4 class="pr-value"><?php echo $user_plan_data['price'] ?></h4>
                         </div>
                         <div class="packages_bottombody">
-                            <a href="<?php echo home_url(  ) ?>">بازگشت به سایت</a>
+                            <a href="<?php echo home_url(  ) ?>"><?php echo __('Return to home', 'jialivs') ?></a>
                         </div>
                         
                     </div>
                 </div>
             </div>
         <?php else: ?>
-            <div class="alert alert-danger">پرداختی موجود نیست!</div>
+            <div class="alert alert-danger"><?php echo __('There is no transaction!', 'jialivs') ?></div>
         <?php endif; ?> 
         <?php
         return ob_get_clean();

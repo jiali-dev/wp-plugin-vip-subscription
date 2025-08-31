@@ -9,7 +9,7 @@
  * Author URI: https://mahyarerad.com/
  * License: GPL-2.0+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: jiali-vip-subscription
+ * Text Domain: jialivs
  * Domain Path: /languages
 */
 

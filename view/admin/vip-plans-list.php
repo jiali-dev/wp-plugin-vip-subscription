@@ -14,7 +14,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
         }
         $vip_plan = new JialivsPlan();
         $vip_plan->delete( $plan_id ); 
-        JialivsFlashMessage::addMessage( 'پلن با موفقیت حذف شد!', 0 );
+        JialivsFlashMessage::addMessage( __('plan successfuly deleted', 'jialivs'), 0 );
         wp_redirect( remove_query_arg( ['action', 'id'] ) );
         exit;
     }
@@ -32,7 +32,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
             <!-- This is the modal -->
             <div id="update-plan-modal" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
-                    <h2 class="uk-modal-title">آپدیت پلن</h2>
+                    <h2 class="uk-modal-title"><?php echo __( 'Update plan', 'jialivs' ) ?></h2>
                     <form method="post">
                         <fieldset class="uk-fieldset">
 
@@ -41,33 +41,33 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
                             </div>
 
                             <div class="uk-margin">
-                                <input class="uk-input" type="text" placeholder="قیمت" name="price" aria-label="Price" value="<?php echo $vip_plan->price; ?>">
+                                <input class="uk-input" type="text" placeholder="<?php echo __( 'Price', 'jialivs' ) ?>" name="price" aria-label="Price" value="<?php echo $vip_plan->price; ?>">
                             </div>
                             
                             <div class="uk-margin">
-                                <div class="uk-form-label">پیشنهادی</div>
+                                <div class="uk-form-label"><?php echp __('Suggestion', 'jialivs') ?></div>
                                 <div class="uk-form-controls">
-                                    <label><input class="uk-radio" type="radio" name="recommended" value="1" <?php checked( $vip_plan->recommended, 1, true ) ?>>بله</label><br>
-                                    <label><input class="uk-radio" type="radio" name="recommended" value="0" <?php checked( $vip_plan->recommended, 0, true ) ?>>خیر</label>
+                                    <label><input class="uk-radio" type="radio" name="recommended" value="1" <?php checked( $vip_plan->recommended, 1, true ) ?>><?php echo __('Yes', 'jialivs') ?></label><br>
+                                    <label><input class="uk-radio" type="radio" name="recommended" value="0" <?php checked( $vip_plan->recommended, 0, true ) ?>><?php echo __('No', 'jialivs') ?></label>
                                 </div>
                             </div>
 
                             <div class="uk-margin">
-                                <div class="uk-form-label">وضعیت</div>
+                                <div class="uk-form-label"><?php echo __( Status', 'jialivs' ) ?></div>
                                 <div class="uk-form-controls">
-                                    <label><input class="uk-radio" type="radio" name="status" value="1" <?php checked( $vip_plan->status, 1, true ) ?> >فعال</label><br>
-                                    <label><input class="uk-radio" type="radio" name="status" value="0" <?php checked( $vip_plan->status, 0, true ) ?>>غیرفعال</label>
+                                    <label><input class="uk-radio" type="radio" name="status" value="1" <?php checked( $vip_plan->status, 1, true ) ?> ><?php echo __('Active', 'jialivs') ?></label><br>
+                                    <label><input class="uk-radio" type="radio" name="status" value="0" <?php checked( $vip_plan->status, 0, true ) ?>><?php echo __('Inactive', 'jialivs') ?></label>
                                 </div>
                             </div>
 
                             <div class="uk-margin">
-                                <textarea class="uk-textarea" name="benefits" rows="5" placeholder="مزایا" aria-label="Textarea">
+                                <textarea class="uk-textarea" name="benefits" rows="5" placeholder="<?php echo __('Benefits', 'jialivs') ?>" aria-label="Textarea">
                                     <?php echo trim( esc_html( $vip_plan->benefits ) ) ?>
                                 </textarea>
                             </div>
 
                             <div class="uk-margin">
-                                <button class="uk-button uk-button-default" name="vip-update-plan-btn">ویرایش پلن</button>
+                                <button class="uk-button uk-button-default" name="vip-update-plan-btn"><?php echo __('Edit plan', 'jialivs') ?></button>
                                 <?php wp_nonce_field( 'vip-update-plan-nonce', 'vip-update-plan-nonce' ) ?>
                             </div>
 
@@ -101,7 +101,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
             $vip_plan = new JialivsPlan();
             $update = $vip_plan->editVipPlan( $plan_id, $price, $recommended, $status, $benefits);
-            JialivsFlashMessage::addMessage( 'بروزرسانی با موفقیت انجام شد!', 1 );
+            JialivsFlashMessage::addMessage( __('ّUpdate completed successfully!', 'jialivs') , 1 );
 
             wp_redirect( remove_query_arg( ['action', 'id'] ) );
 
@@ -139,7 +139,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
             $plan_id = $user->ID;
             $user_plan = new JialivsPlan();
             $user_plan->updateUserVipPlan( $plan_id, $plan_id );
-            JialivsFlashMessage::addMessage( 'پلن با موفقیت ثبت شد!', 1 );
+            JialivsFlashMessage::addMessage( __('Plan submited successfuly!', 'jialivs'), 1 );
 
         } catch( Exception $ex )
         {
@@ -163,12 +163,12 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
         <thead>
             <tr>
                 <th>#</th>
-                <th>عنوان</th>
-                <th>قیمت</th>
-                <th>مزایا</th>
-                <th>پیشنهاد</th>
-                <th>وضعیت</th>
-                <th>عملیات</th>
+                <th><?php echo __('Title', 'jialivs') ?></th>
+                <th><?php echo __('Price', 'jialivs') ?></th>
+                <th><?php echo __('Benefits', 'jialivs') ?></th>
+                <th><?php echo __('Suggestion', 'jialivs') ?></th>
+                <th><?php echo __('Status', 'jialivs') ?></th>
+                <th><?php echo __('Action', 'jialivs') ?></th>
             </tr>
         </thead>
         <tbody>
@@ -183,11 +183,11 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
                         <td><?php echo $plans->getPlanTitle($item->type) ?></td>
                         <td><?php echo $item->price ?></td>
                         <td><?php echo $item->benefits ?></td>
-                        <td><?php echo $item->recommended ? '<span class="uk-alert-success" >بله</span>' : '<span class="uk-alert-danger" >خیر</span>' ?></td>
-                        <td><?php echo $item->status ? '<span class="uk-alert-success" >فعال</span>' : '<span class="uk-alert-danger" >غیر فعال</span>' ?></td>
+                        <td><?php echo $item->recommended ? '<span class="uk-alert-success" >'. __( 'Yes', 'jialivs' ) .'</span>' : '<span class="uk-alert-danger" >'. __( 'No', 'jialivs' ) .'</span>' ?></td>
+                        <td><?php echo $item->status ? '<span class="uk-alert-success" >'. __('Active', 'jialivs') .'</span>' : '<span class="uk-alert-danger" >'.  __('Inactive', 'jialivs') .' </span>' ?></td>
                         <td>
-                            <a uk-tooltip="title: حذف پلن" href="<?php echo add_query_arg( ['action' => 'delete', 'id' => $item->id ] ) ?>" uk-icon="icon: trash"></a>
-                            <a uk-tooltip="title: ویرایش پلن" href="<?php echo add_query_arg( ['action' => 'update', 'id' => $item->id ] ) ?>" uk-icon="icon: pencil"></a>
+                            <a uk-tooltip="title: <?php echo __( 'Delete plan', 'jialivs' ) ?>" href="<?php echo add_query_arg( ['action' => 'delete', 'id' => $item->id ] ) ?>" uk-icon="icon: trash"></a>
+                            <a uk-tooltip="title: <?php echo __('Edit plan', 'jialivs') ?>" href="<?php echo add_query_arg( ['action' => 'update', 'id' => $item->id ] ) ?>" uk-icon="icon: pencil"></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

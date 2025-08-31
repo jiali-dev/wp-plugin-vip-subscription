@@ -14,7 +14,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
         }
         $users_plans = new JialivsUserVipPlan();
         $users_plans->deleteUserVipPlan( $user_id ); 
-        JialivsFlashMessage::addMessage( 'پلن با موفقیت حذف شد!', 0 );
+        JialivsFlashMessage::addMessage( __('Plan deleted successfuly', 'jialivs'), 0 );
         wp_redirect( remove_query_arg( ['action', 'id'] ) );
         exit;
     }
@@ -33,7 +33,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
             <!-- This is the modal -->
             <div id="update-plan-modal" uk-modal>
                 <div class="uk-modal-dialog uk-modal-body">
-                    <h2 class="uk-modal-title">آپدیت پلن</h2>
+                    <h2 class="uk-modal-title"><?php echo __( 'Update plan', 'jialivs' ) ?></h2>
                     <form method="post">
                         <fieldset class="uk-fieldset">
 
@@ -46,19 +46,19 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
 
                             <div class="uk-margin">
                                 <select name="plan_type" class="uk-select" aria-label="Select">
-                                    <option <?php selected( $user_plan->plan_type, 1, true ) ?> value="3" > پکیج برنزی</option>
-                                    <option <?php selected( $user_plan->plan_type, 2, true ) ?> value="2" >پکیج نقره ای</option>
-                                    <option <?php selected( $user_plan->plan_type, 3, true ) ?> value="1" >پکیج طلایی</option>
+                                    <option <?php selected( $user_plan->plan_type, 1, true ) ?> value="3" ><?php echo __('Bronze package', 'jialivs') ?></option>
+                                    <option <?php selected( $user_plan->plan_type, 2, true ) ?> value="2" ><?php echo __('Silver result', 'jialivs') ?></option>
+                                    <option <?php selected( $user_plan->plan_type, 3, true ) ?> value="1" ><?php echo __('Golden result', 'jialivs') ?></option>
                                 </select>
                             </div>
                             <div class="uk-margin">
-                                <input class="uk-input" type="text" placeholder="تاریخ شروع" name="start_date" aria-label="Start date" value="<?php echo jdate('Y-m-d', strtotime($user_plan->start_date), '', '' ,'en' ); ?>" data-jdp>
+                                <input class="uk-input" type="text" placeholder="<?php echo __('Start date', 'jialivs') ?>" name="start_date" aria-label="Start date" value="<?php echo jdate('Y-m-d', strtotime($user_plan->start_date), '', '' ,'en' ); ?>" data-jdp>
                             </div>
                             <div class="uk-margin">
-                                <input class="uk-input" type="text" placeholder="تاریخ اتمام" name="expiration_date" aria-label="Expiration date" value="<?php echo jdate( 'Y-m-d', strtotime($user_plan->expiration_date), '', '' ,'en' ); ?>" data-jdp>
+                                <input class="uk-input" type="text" placeholder="<?php echo __('End date', 'jialivs') ?>" name="expiration_date" aria-label="Expiration date" value="<?php echo jdate( 'Y-m-d', strtotime($user_plan->expiration_date), '', '' ,'en' ); ?>" data-jdp>
                             </div>
                             <div class="uk-margin">
-                                <button class="uk-button uk-button-default" name="vip-update-plan-btn">ویرایش پلن</button>
+                                <button class="uk-button uk-button-default" name="vip-update-plan-btn"><?php echo __('Edit plan', 'jialivs') ?></button>
                                 <?php wp_nonce_field( 'vip-update-plan-nonce', 'vip-update-plan-nonce' ) ?>
                             </div>
 
@@ -92,7 +92,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
             $user_plan = new JialivsUserVipPlan();
             $user_plan->editUserVipPlan( $user_id, $plan_id,$start_date, $expiration_date);
-            JialivsFlashMessage::addMessage( 'بروزرسانی با موفقیت انجام شد!', 1 );
+            JialivsFlashMessage::addMessage( __('Update completed successfully!', 'jialivs'), 1 );
             wp_redirect( remove_query_arg( ['action', 'id'] ) );
             exit;
 
@@ -130,7 +130,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
             $user_id = $user->ID;
             $user_plan = new JialivsUserVipPlan();
             $user_plan->updateUserVipPlan( $user_id, $plan_id );
-            JialivsFlashMessage::addMessage( 'پلن با موفقیت ثبت شد!', 1 );
+            JialivsFlashMessage::addMessage( __( 'Plan submitted successfully!', 'jialivs' ), 1 );
 
         } catch( Exception $ex )
         {
@@ -149,20 +149,20 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
         <h1 class="uk-heading-divider">
             <?php echo get_admin_page_title(  ) ?>
         </h1>
-        <button uk-toggle="target: #add_user_plan_modal" type="button" class="uk-button uk-button-primary uk-button-small">افزودن پلن</button>
+        <button uk-toggle="target: #add_user_plan_modal" type="button" class="uk-button uk-button-primary uk-button-small"><?php echp __( 'Add plan', 'jialivs' )?> </button>
     </div>
     <table class="uk-table uk-table-striped">
         <thead>
             <tr>
                 <th>#</th>
-                <th>نام و نام خانوادگی</th>
-                <th>ایمیل</th>
-                <th>نوع اکانت</th>
-                <th>تاریخ شروع</th>
-                <th>تاریخ اتمام</th>
-                <th>زمان باقیمانده</th>
-                <th>وضعیت اکانت</th>
-                <th>عملیات</th>
+                <th><?php echo __( 'Fullname', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Email', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Account type', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Start date', 'jialivs' ) ?></th>
+                <th><?php echo __( 'End date', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Remaining days', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Account status', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Action', 'jialivs' ) ?></th>
             </tr>
         </thead>
         <tbody>
@@ -182,10 +182,10 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
                         <td><?php echo jdate('Y-m-d', strtotime($item->start_date) ) ?></td>
                         <td><?php echo jdate('Y-m-d', strtotime($item->expiration_date) ) ?></td>
                         <td><?php echo JialivsUserVipPlan::calculateRemainingTime($item->expiration_date) ?></td>
-                        <td><?php echo $item->expiration_date >= date('Y-m-d') ? '<span class="uk-alert-success" >فعال</span>' : '<span class="uk-alert-danger" >غیر فعال</span>' ?></td>
+                        <td><?php echo $item->expiration_date >= date('Y-m-d') ? '<span class="uk-alert-success" >'. __( 'Active', 'jialivs' ) .'</span>' : '<span class="uk-alert-danger" >' echo __( 'Inactive', 'jialivs' ) .'</span>' ?></td>
                         <td>
-                            <a uk-tooltip="title: حذف پلن" href="<?php echo add_query_arg( ['action' => 'delete', 'id' => $user_info->ID ] ) ?>" uk-icon="icon: trash"></a>
-                            <a uk-tooltip="title: ویرایش پلن" href="<?php echo add_query_arg( ['action' => 'update', 'id' => $user_info->ID ] ) ?>" uk-icon="icon: pencil"></a>
+                            <a uk-tooltip="title: <?php echo __( 'Delete plan', 'jialivs' ) ?>" href="<?php echo add_query_arg( ['action' => 'delete', 'id' => $user_info->ID ] ) ?>" uk-icon="icon: trash"></a>
+                            <a uk-tooltip="title: <?php echo __( 'Edit plan', 'jialivs' ) ?>" href="<?php echo add_query_arg( ['action' => 'update', 'id' => $user_info->ID ] ) ?>" uk-icon="icon: pencil"></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -195,21 +195,21 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
     <!-- This is the modal -->
     <div id="add_user_plan_modal" uk-modal>
         <div class="uk-modal-dialog uk-modal-body">
-            <h2 class="uk-modal-title">آپدیت پلن</h2>
+            <h2 class="uk-modal-title"><?php echo __( 'Update plan', 'jialivs' ) ?></h2>
             <form method="post">
                 <fieldset class="uk-fieldset">
                     <div class="uk-margin">
-                        <input class="uk-input" type="text" placeholder="ایمیل ..." name="user_email" aria-label="User email" >
+                        <input class="uk-input" type="text" placeholder="<?php echo __( 'Email', 'jialivs' ) ?>" name="user_email" aria-label="User email" >
                     </div>
                     <div class="uk-margin">
                         <select name="plan_type" class="uk-select" aria-label="Select">
-                            <option value="3" >پکیج برنزی</option>
-                            <option value="2" >پکیج نقره ای</option>
-                            <option value="1" >پکیج طلایی</option>
+                            <option value="3" > <?php echo __( 'Bronze package', 'jialivs' ) ?> </option>
+                            <option value="2" > <?php echo __( 'Silver package', 'jialivs' ) ?> </option>
+                            <option value="1" > <?php echo __( 'Golden package', 'jialivs' ) ?> </option>
                         </select>
                     </div>
                     <div class="uk-margin">
-                        <button class="uk-button uk-button-default" name="vip-add-plan-btn">افزودن پلن</button>
+                        <button class="uk-button uk-button-default" name="vip-add-plan-btn"><?php echo __( 'Add plan', 'jialivs' ) ?> </button>
                         <?php wp_nonce_field( 'vip-add-plan-nonce', 'vip-add-plan-nonce' ) ?>
                     </div>
                 </fieldset>
