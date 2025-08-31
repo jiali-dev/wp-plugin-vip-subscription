@@ -126,12 +126,12 @@ class JialivsUserVipPlan {
         $remaining_time = strtotime($expiration_date) - strtotime($current_date);
         
         if( $remaining_time < 0 ) {
-            return 'منقضی شده';
+            return __('Expired', 'jialivs');
         }
 
         $days_remaining = floor($remaining_time / (60 * 60 * 24));
         
-        return $days_remaining . ' روز باقی مانده';
+        return $days_remaining . __('Remaining days', 'jialivs');
     }
 
     public function editUserVipPlan(  $user_id, $plan_type, $start_date, $expiration_date ) {

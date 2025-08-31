@@ -33,13 +33,13 @@ class JialivsPlan {
         $vip_plan_title = '';
         switch($plan_type) {
             case 1:
-                $vip_plan_title = 'پکیج طلایی';
+                $vip_plan_title = __('Golden package', 'jialivs');
                 break;
             case 2:
-                $vip_plan_title = 'پکیج نقره ای';
+                $vip_plan_title = __('Silver package', 'jialivs');
                 break;
             case 3:
-                $vip_plan_title = 'پکیج برنزی';
+                $vip_plan_title = __('Bronze package', 'jialivs');
                 break;
         }
         return $vip_plan_title;

@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) exit;
 function jialivs_add_meta_box() {
     add_meta_box(
         'jialivs_more_settings',          // ID of the meta box
-        'پست VIP',                        // Title of the meta box
+       __( 'VIP post', 'jialivs' ),                        // Title of the meta box
         'jialivs_meta_box_callback',   // Callback function
         array( 'post', 'technology' ),                              // Screen (Post type)
         'normal',                              // Context (normal, side, advanced)

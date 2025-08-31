@@ -16,14 +16,14 @@ if (!defined('ABSPATH')) exit;
         <thead>
             <tr>
                 <th>#</th>
-                <th>نام و نام خانوادگی</th>
-                <th>ایمیل</th>
-                <th>مبلغ پرداختی</th>
-                <th>شماره سفارش</th>
-                <th>شماره تراکنش</th>
-                <th>وضعیت پرداخت</th>
-                <th>تاریخ پرداخت</th>
-                <th>نوع پلن</th>
+                <th><?php echo __( 'Fullname', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Email', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Payment amount', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Order number', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Transaction number', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Payment status', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Payment date', 'jialivs' ) ?></th>
+                <th><?php echo __( 'Plan type', 'jialivs' ) ?></th>
             </tr>
         </thead>
         <tbody>
@@ -42,7 +42,7 @@ if (!defined('ABSPATH')) exit;
                         <td><?php echo $item->price ?></td>
                         <td><?php echo $item->order_number ?></td>
                         <td><?php echo $item->ref_id ?></td>
-                        <td><?php echo $item->status ? '<span class="uk-alert-success" >موفق</span>' : '<span class="uk-alert-danger" >ناموفق</span>' ?></td>
+                        <td><?php echo $item->status ? '<span class="uk-alert-success" >موفق</span>' : '<span class="uk-alert-danger" >'. __( 'unsuccessful', 'jialivs' ) .'</span>' ?></td>
                         <td><?php echo jdate($item->created_at) ?></td>
                         <td><?php echo JialivsPlan::getPlanTitle($item->plan_type) ?></td>
                     </tr>

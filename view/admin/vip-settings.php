@@ -35,7 +35,7 @@ $payment_result_slug = sanitize_text_field( $vip_settings['payment_result_slug']
                     'payment_result_slug' => $payment_result_slug,
                 ];
         
-                JialivsFlashMessage::addMessage( 'تنظیمات با موفقیت ذخیره شد!', 1 );
+                JialivsFlashMessage::addMessage( __('Settings saved successfuly', 'jialivs'), 1 );
                 wp_redirect( admin_url( 'admin.php?page=jialivs_vip_settings' ) );
                 exit;
 
@@ -60,20 +60,20 @@ $payment_result_slug = sanitize_text_field( $vip_settings['payment_result_slug']
     <form method="post">
         <fieldset class="uk-fieldset">
             <div class="uk-margin">
-                <input class="uk-input" type="text" placeholder="مرچنت آی دی" name="merchant_id" aria-label="Merchant id" value="<?php echo $merchant_id; ?>">
+                <input class="uk-input" type="text" placeholder="<?php echo __('merchant ID', 'jialivs') ?>" name="merchant_id" aria-label="Merchant id" value="<?php echo $merchant_id; ?>">
             </div>
             <div class="uk-margin">
-                <input class="uk-input" type="text" placeholder="نامک گیت وی" name="gateway_slug" aria-label="Gateway slug" value="<?php echo $gateway_slug; ?>">
+                <input class="uk-input" type="text" placeholder="<?php echo __('Gateway', 'jialivs') ?>" name="gateway_slug" aria-label="Gateway slug" value="<?php echo $gateway_slug; ?>">
             </div>
             <div class="uk-margin">
-                <input class="uk-input" type="text" placeholder="نامک چک اوت" name="checkout_slug" aria-label="Checkout slug" value="<?php echo $checkout_slug; ?>">
+                <input class="uk-input" type="text" placeholder="<?php echo __('Checkout', 'jialivs') ?>" name="checkout_slug" aria-label="Checkout slug" value="<?php echo $checkout_slug; ?>">
             </div>
             <div class="uk-margin">
-                <input class="uk-input" type="text" placeholder="نامک نتیجه پرداخت" name="payment_result_slug" aria-label="Payment result slug" value="<?php echo $payment_result_slug; ?>">
+                <input class="uk-input" type="text" placeholder="<?php echo __('Payment result', 'jialivs') ?>" name="payment_result_slug" aria-label="Payment result slug" value="<?php echo $payment_result_slug; ?>">
             </div>
 
             <div class="uk-margin">
-                <button class="uk-button uk-button-primary" name="vip-settings-btn">ذخیره</button>
+                <button class="uk-button uk-button-primary" name="vip-settings-btn"><?php echo __('Save', 'jialivs') ?></button>
                 <?php wp_nonce_field( 'vip-settings-nonce', 'vip-settings-nonce' ) ?>
             </div>
         </fieldset>
