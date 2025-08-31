@@ -59,7 +59,7 @@ add_action('admin_menu', 'jialivs_register_vip_menu');
 
 // Main Dashboard Page
 function jialivs_vip_dashboard_page() {
-    echo '<div class="wrap"><h1>'. __('VIP plans settings', 'jialivs') .'</h1><p>'.__('Welcome to VIP setting page', 'jialivs'),.'</p></div>';
+    echo '<div class="wrap"><h1>'. __('VIP plans settings', 'jialivs') .'</h1><p>'.__('Welcome to VIP setting page', 'jialivs').'</p></div>';
 }
 
 // Submenu Page 1: VIP users
